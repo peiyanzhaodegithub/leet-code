@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-public class OnTheThirdDay {
+public class Day3 {
 
 
     public static void main(String[] args) {

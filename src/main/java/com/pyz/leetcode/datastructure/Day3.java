@@ -3,7 +3,7 @@ package com.pyz.leetcode.datastructure;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class OnTheThirdDay {
+public class Day3 {
 
 
     public static void main(String[] args) {

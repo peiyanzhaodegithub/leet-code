@@ -1,6 +1,6 @@
 package com.pyz.leetcode.algorithm;
 
-public class TheForthDay {
+public class Day4 {
 
     public static void main(String[] args) {
         char[] s = new char[]{'a','b','c','D'};

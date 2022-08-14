@@ -3,7 +3,7 @@ package com.pyz.leetcode.algorithm;
 import java.util.Arrays;
 import java.util.Collections;
 
-public class TheSecondDay {
+public class Day2 {
 
 
     public static void main(String[] args) {

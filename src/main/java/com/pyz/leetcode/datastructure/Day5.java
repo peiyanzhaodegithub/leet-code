@@ -2,7 +2,7 @@ package com.pyz.leetcode.datastructure;
 
 import java.util.*;
 
-public class TheFifthDay {
+public class Day5 {
 
     public static void main(String[] args) {
         int[][] board = {

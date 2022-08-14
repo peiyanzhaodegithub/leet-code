@@ -1,6 +1,6 @@
 package com.pyz.leetcode.algorithm;
 
-public class FirstDay {
+public class Day1 {
 
     public static void main(String[] args) {
         int[] nums = new int[]{1,2,3,5,7,8,9};
