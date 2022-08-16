@@ -94,7 +94,11 @@ public class everyday {
     }
 
     public static void main(String[] args) {
-        System.out.println(isPalindrome(-10));
+
+        ListNode l1 = new ListNode(2,new ListNode(4,new ListNode(3)));
+        ListNode l2 = new ListNode(5,new ListNode(6,new ListNode(4)));
+        addTwoNumbers(l1,l2);
+        //System.out.println(isPalindrome(-10));
     }
 
     public static boolean isPalindrome(int x) {
@@ -155,5 +159,41 @@ public class everyday {
             return list;
         }
     }
+
+    public static ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+
+        int plus = 0;
+        ListNode listNode = new ListNode();
+        ListNode curr = listNode;
+        while (l1 != null || l2 != null ||  plus > 0) {
+
+            int v = (l1 == null ? 0 : l1.val) + (l2 == null ? 0 : l2.val) + plus;
+            plus = v / 10;
+            curr.next = new ListNode(v % 10);
+            l1 = l1 == null ? null : l1.next;
+            l2 = l2 == null ? null : l2.next;
+            curr = curr.next;
+        }
+
+        return listNode.next;
+    }
+
+    public static class ListNode {
+        int val;
+        ListNode next;
+
+        ListNode() {
+        }
+
+        ListNode(int val) {
+            this.val = val;
+        }
+
+        ListNode(int val, ListNode next) {
+            this.val = val;
+            this.next = next;
+        }
+    }
+
 
 }
