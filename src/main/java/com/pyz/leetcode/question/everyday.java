@@ -1,5 +1,8 @@
 package com.pyz.leetcode.question;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class everyday {
 
 
@@ -100,7 +103,7 @@ public class everyday {
         if (s.length() == 1) {
             return true;
         }
-        if (s.charAt(0) == '-'){
+        if (s.charAt(0) == '-') {
             return false;
         }
         String ts = "";
@@ -120,5 +123,37 @@ public class everyday {
 
     }
 
+    class OrderedStream {
+        // 设计有序流
+        int[] index;
+        String[] ele;
+        int ptr;
+        int max;
+
+        public OrderedStream(int n) {
+            index = new int[n + 1];
+            ele = new String[n + 1];
+            ptr = 1;
+            max = n;
+        }
+
+        public List<String> insert(int idKey, String value) {
+
+            List<String> list = new ArrayList<>();
+            ele[idKey] = value;
+            index[idKey] = idKey;
+            if (ptr == idKey) {
+                for (int i = ptr; i <= max; i++) {
+                    if (index[i] == 0) {
+                        ptr = i;
+                        break;
+                    }
+                    list.add(ele[i]);
+                }
+            }
+
+            return list;
+        }
+    }
 
 }
