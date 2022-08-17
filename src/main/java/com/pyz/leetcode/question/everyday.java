@@ -316,5 +316,42 @@ public class everyday {
 
     }
 
+    public String convert(String s, int numRows) {
+        if (numRows == 1){
+            return s;
+        }
+
+        int len = s.length();
+        StringBuilder[] stringBuilders = new StringBuilder[numRows];
+        for (int i = 0; i < numRows; i++) {
+            stringBuilders[i] = new StringBuilder();
+        }
+        int inc = 1;
+        int line = 0;
+
+        for (int i = 0; i < len; i++) {
+
+            stringBuilders[line].append(s.charAt(i));
+            if (line == 0){
+                inc = 1;
+            }
+
+            if (line == numRows - 1){
+                inc = -1;
+            }
+
+            line = line + inc;
+
+        }
+
+        StringBuilder res = new StringBuilder();
+        for (int i = 0; i < stringBuilders.length; i++) {
+            res.append(stringBuilders[i]);
+        }
+
+
+        return res.toString();
+    }
+
 
 }
