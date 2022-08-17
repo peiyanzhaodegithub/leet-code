@@ -1,7 +1,8 @@
 package com.pyz.leetcode.question;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.*;
 
 public class everyday {
 
@@ -95,10 +96,14 @@ public class everyday {
 
     public static void main(String[] args) {
 
-        ListNode l1 = new ListNode(2,new ListNode(4,new ListNode(3)));
-        ListNode l2 = new ListNode(5,new ListNode(6,new ListNode(4)));
-        addTwoNumbers(l1,l2);
+        System.out.println(longestPalindrome("cbbd"));
+      /*  ListNode l1 = new ListNode(2, new ListNode(4, new ListNode(3)));
+        ListNode l2 = new ListNode(5, new ListNode(6, new ListNode(4)));
+        addTwoNumbers(l1, l2);*/
         //System.out.println(isPalindrome(-10));
+       /* TreeNode treeNode = new TreeNode(1, new TreeNode(2, new TreeNode(4, new TreeNode(7), null), new TreeNode(5)), new TreeNode(3, null, new TreeNode(6, null, new TreeNode(8))));
+        deepestLeavesSum(treeNode);*/
+        //System.out.println(findMedianSortedArrays(new int[]{1, 3}, new int[]{2, 7}));
     }
 
     public static boolean isPalindrome(int x) {
@@ -165,7 +170,7 @@ public class everyday {
         int plus = 0;
         ListNode listNode = new ListNode();
         ListNode curr = listNode;
-        while (l1 != null || l2 != null ||  plus > 0) {
+        while (l1 != null || l2 != null || plus > 0) {
 
             int v = (l1 == null ? 0 : l1.val) + (l2 == null ? 0 : l2.val) + plus;
             plus = v / 10;
@@ -193,6 +198,122 @@ public class everyday {
             this.val = val;
             this.next = next;
         }
+    }
+
+    public static class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode() {
+        }
+
+        TreeNode(int val) {
+            this.val = val;
+        }
+
+        TreeNode(int val, TreeNode left, TreeNode right) {
+            this.val = val;
+            this.left = left;
+            this.right = right;
+        }
+    }
+
+    public static int deepestLeavesSum(TreeNode root) {
+
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        int sum = 0;
+        while (!queue.isEmpty()) {
+
+            int num = queue.size();
+            sum = 0;
+            for (int i = 1; i <= num; i++) {
+                TreeNode treeNode = queue.poll();
+                sum = sum + treeNode.val;
+                if (treeNode.right != null) {
+                    queue.offer(treeNode.right);
+                }
+                if (treeNode.left != null) {
+                    queue.offer(treeNode.left);
+                }
+            }
+        }
+
+        return sum;
+    }
+
+    public static double findMedianSortedArrays(int[] nums1, int[] nums2) {
+
+        int p1 = 0, p2 = 0;
+        int n1 = nums1.length, n2 = nums2.length;
+        int[] merge = new int[n1 + n2];
+        if (n1 == 0) {
+            merge = nums2;
+        } else if (n2 == 0) {
+            merge = nums1;
+        } else {
+            for (int i = 0; i < (n1 + n2); i++) {
+                if (p1 == n1) {
+                    merge[i] = nums2[p2];
+                    p2++;
+                    continue;
+                }
+                if (p2 == n2) {
+                    merge[i] = nums1[p1];
+                    p1++;
+                    continue;
+                }
+                if (nums1[p1] <= nums2[p2]) {
+                    merge[i] = nums1[p1];
+                    p1++;
+                } else {
+                    merge[i] = nums2[p2];
+                    p2++;
+                }
+            }
+        }
+        int median = (n1 + n2) / 2;
+
+        return (n1 + n2) % 2 > 0 ? merge[median] : Double.parseDouble((merge[median] + merge[median - 1]) + "") / 2;
+
+    }
+
+    public static String longestPalindrome(String s) {
+
+        int len = s.length();
+        if (len == 1){
+            return s;
+        }
+        String ans = "";
+        for (int i = 0; i < len; i++) {
+
+            // 第二层循环可以改成for (int j = len - 1; j > i; j--) {}  这样判断是回文串之后就不必再往后循环了，因为这就是当前循环最长的回文串
+            for (int j = i + 1; j < len; j++) {
+
+                if (s.charAt(i) == s.charAt(j)) {
+                    //判断是否是回文串
+                    int p1 = i + 1, p2 = j - 1;
+                    boolean is = true;
+                    while (p1 <= p2) {
+                        if (s.charAt(p1) != s.charAt(p2)) {
+                            is = false;
+                            break;
+                        }
+                        p1++;
+                        p2--;
+                    }
+
+                    if (is && ans.length() < (j - i + 1)){
+                        ans = s.substring(i,j + 1);
+                    }
+                }
+
+            }
+        }
+
+        return ans.length() == 0 ? s.charAt(0)+"" : ans;
+
     }
 
 
