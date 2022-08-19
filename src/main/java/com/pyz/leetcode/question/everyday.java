@@ -95,8 +95,8 @@ public class everyday {
     }
 
     public static void main(String[] args) {
-
-        System.out.println(longestPalindrome("cbbd"));
+//2147483647
+        System.out.println(longestCommonPrefix(new String[]{"flower", "flow", "flight"}));
       /*  ListNode l1 = new ListNode(2, new ListNode(4, new ListNode(3)));
         ListNode l2 = new ListNode(5, new ListNode(6, new ListNode(4)));
         addTwoNumbers(l1, l2);*/
@@ -282,7 +282,7 @@ public class everyday {
     public static String longestPalindrome(String s) {
 
         int len = s.length();
-        if (len == 1){
+        if (len == 1) {
             return s;
         }
         String ans = "";
@@ -304,20 +304,20 @@ public class everyday {
                         p2--;
                     }
 
-                    if (is && ans.length() < (j - i + 1)){
-                        ans = s.substring(i,j + 1);
+                    if (is && ans.length() < (j - i + 1)) {
+                        ans = s.substring(i, j + 1);
                     }
                 }
 
             }
         }
 
-        return ans.length() == 0 ? s.charAt(0)+"" : ans;
+        return ans.length() == 0 ? s.charAt(0) + "" : ans;
 
     }
 
     public String convert(String s, int numRows) {
-        if (numRows == 1){
+        if (numRows == 1) {
             return s;
         }
 
@@ -332,11 +332,11 @@ public class everyday {
         for (int i = 0; i < len; i++) {
 
             stringBuilders[line].append(s.charAt(i));
-            if (line == 0){
+            if (line == 0) {
                 inc = 1;
             }
 
-            if (line == numRows - 1){
+            if (line == numRows - 1) {
                 inc = -1;
             }
 
@@ -349,9 +349,195 @@ public class everyday {
             res.append(stringBuilders[i]);
         }
 
-
         return res.toString();
     }
 
+    public static int reverse(int x) {
+
+        int res = 0;
+        while (x != 0) {
+            if (res < Integer.MIN_VALUE / 10 || res > Integer.MAX_VALUE / 10) {
+                return 0;
+            }
+            int digit = x % 10;
+            x = x / 10;
+            res = res * 10 + digit;
+        }
+
+        return res;
+
+    }
+
+    public static int myAtoi(String str) {
+
+        str = str.trim();
+        if (str.length() == 0) {
+            return 0;
+        }
+        int sign = str.charAt(0) == '-' ? -1 : 1;
+        int res = 0;
+        int i = str.charAt(0) == '-' || str.charAt(0) == '+' ? 1 : 0;
+        int len = str.length();
+        for (; i < len; i++) {
+            char currChar = str.charAt(i);
+            if (!Character.isDigit(currChar)) {
+                break;
+            }
+
+            if (res > Integer.MAX_VALUE / 10 || (res == Integer.MAX_VALUE / 10 && (currChar - '0') > Integer.MAX_VALUE % 10)) {
+                return Integer.MAX_VALUE;
+            }
+            if (res < Integer.MIN_VALUE / 10 || (res == Integer.MIN_VALUE / 10 && (currChar - '0') > -(Integer.MIN_VALUE % 10))) {
+                return Integer.MIN_VALUE;
+            }
+            res = res * 10 + sign * (currChar - '0');
+        }
+        return res;
+    }
+
+    public int busyStudent(int[] startTime, int[] endTime, int queryTime) {
+
+        int ans = 0;
+        int len = startTime.length;
+
+        for (int i = 0; i < len; i++) {
+            if (startTime[i] <= queryTime && queryTime <= endTime[i]) {
+                ans++;
+            }
+        }
+
+        return ans;
+
+    }
+
+
+    public static int subarraysWithKDistinct(int[] nums, int k) {
+
+        int n = nums.length;
+        int[] num1 = new int[n + 1];
+        int[] num2 = new int[n + 1];
+        int tot1 = 0, tot2 = 0;
+        int left1 = 0, left2 = 0, right = 0;
+        int ret = 0;
+        while (right < n) {
+            if (num1[nums[right]] == 0) {
+                tot1++;
+            }
+            num1[nums[right]]++;
+            if (num2[nums[right]] == 0) {
+                tot2++;
+            }
+            num2[nums[right]]++;
+            while (tot1 > k) {
+                num1[nums[left1]]--;
+                if (num1[nums[left1]] == 0) {
+                    tot1--;
+                }
+                left1++;
+            }
+            while (tot2 > k - 1) {
+                num2[nums[left2]]--;
+                if (num2[nums[left2]] == 0) {
+                    tot2--;
+                }
+                left2++;
+            }
+            ret += left2 - left1;
+            right++;
+        }
+        return ret;
+
+
+        //return atMostKDistinct(A, K) - atMostKDistinct(A, K - 1);
+    }
+
+    /**
+     * @param A
+     * @param K
+     * @return 最多包含 K 个不同整数的子区间的个数
+     */
+    private static int atMostKDistinct(int[] A, int K) {
+        int len = A.length;
+        int[] freq = new int[len + 1];
+
+        int left = 0;
+        int right = 0;
+        // [left, right) 里不同整数的个数
+        int count = 0;
+        int res = 0;
+        // [left, right) 包含不同整数的个数小于等于 K
+        while (right < len) {
+            if (freq[A[right]] == 0) {
+                count++;
+            }
+            freq[A[right]]++;
+            right++;
+
+            while (count > K) {
+                freq[A[left]]--;
+                if (freq[A[left]] == 0) {
+                    count--;
+                }
+                left++;
+            }
+            // [left, right) 区间的长度就是对结果的贡献
+            res += right - left;
+        }
+        return res;
+    }
+
+
+    static Map<Character, Integer> symbolValues = new HashMap<Character, Integer>() {{
+        put('I', 1);
+        put('V', 5);
+        put('X', 10);
+        put('L', 50);
+        put('C', 100);
+        put('D', 500);
+        put('M', 1000);
+    }};
+
+
+    public static int romanToInt(String s) {
+
+        int len = s.length(), ans = 0;
+
+        for (int i = 0; i < len; i++) {
+
+            int v = symbolValues.get(s.charAt(i));
+            if (i < len - 1 && v < symbolValues.get(s.charAt(i + 1))) {
+                ans -= v;
+            } else {
+                ans += v;
+            }
+        }
+
+        return ans;
+    }
+
+    public static String longestCommonPrefix(String[] strs) {
+
+        if (strs == null || strs.length == 0) {
+            return "";
+        }
+
+        String str = strs[0];
+        int len = str.length();
+        int total = strs.length;
+        String ans = "";
+        for (int i = 0; i < len; i++) {
+            char c = str.charAt(i);
+            for (int i1 = 1; i1 < total; i1++) {
+                if (i == strs[i1].length() || c != strs[i1].charAt(i)) {
+                    ans = str.substring(0, i);
+                    return ans;
+                }
+            }
+
+        }
+
+        return ans;
+
+    }
 
 }
