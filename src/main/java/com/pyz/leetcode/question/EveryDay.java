@@ -1,10 +1,12 @@
 package com.pyz.leetcode.question;
 
+import org.springframework.util.CollectionUtils;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
 
-public class everyday {
+public class EveryDay {
 
 
     class MyCircularDeque {
@@ -96,7 +98,9 @@ public class everyday {
 
     public static void main(String[] args) {
 //2147483647
-        System.out.println(longestCommonPrefix(new String[]{"flower", "flow", "flight"}));
+        Set<String> list = new HashSet<>();
+        
+        System.out.println(CollectionUtils.isEmpty(list));
       /*  ListNode l1 = new ListNode(2, new ListNode(4, new ListNode(3)));
         ListNode l2 = new ListNode(5, new ListNode(6, new ListNode(4)));
         addTwoNumbers(l1, l2);*/
@@ -218,6 +222,7 @@ public class everyday {
             this.right = right;
         }
     }
+
 
     public static int deepestLeavesSum(TreeNode root) {
 
@@ -539,5 +544,231 @@ public class everyday {
         return ans;
 
     }
+
+    public static List<List<String>> printTree(TreeNode root) {
+
+        int height = calDepth(root);
+        int m = height + 1;
+        int n = (int) Math.pow(2, height + 1) - 1;
+        List<List<String>> res = new ArrayList<>();
+        for (int i = 0; i < m; i++) {
+            List<String> row = new ArrayList<>();
+            for (int j = 0; j < n; j++) {
+                row.add("");
+            }
+            res.add(row);
+        }
+
+        Deque<Tuple> tupleDeque = new ArrayDeque<>();
+        Tuple tuple = new Tuple(0, (n - 1) / 2, root);
+        tupleDeque.offer(tuple);
+        while (!tupleDeque.isEmpty()) {
+            Tuple t = tupleDeque.poll();
+            res.get(t.r).set(t.c, t.node.val + "");
+            if (t.node.left != null) {
+                tupleDeque.offer(new Tuple(t.r + 1, t.c - (int) Math.pow(2, height - t.r - 1), t.node.left));
+            }
+            if (t.node.right != null) {
+                tupleDeque.offer(new Tuple(t.r + 1, t.c + (int) Math.pow(2, height - t.r - 1), t.node.right));
+            }
+        }
+
+        return res;
+
+    }
+
+    private static int calDepth(TreeNode root) {
+
+        Deque<TreeNode> stack = new ArrayDeque<>();
+        stack.push(root);
+        int res = -1;
+        while (!stack.isEmpty()) {
+            res++;
+            int len = stack.size();
+            while (len > 0) {
+                TreeNode treeNode = stack.poll();
+                len--;
+                if (treeNode.left != null) {
+                    stack.offer(treeNode.left);
+                }
+                if (treeNode.right != null) {
+                    stack.offer(treeNode.right);
+                }
+            }
+        }
+        return res;
+    }
+
+    static class Tuple {
+        int c;
+        int r;
+        TreeNode node;
+
+        public int getC() {
+            return c;
+        }
+
+        public void setC(int c) {
+            this.c = c;
+        }
+
+        public int getR() {
+            return r;
+        }
+
+        public void setR(int r) {
+            this.r = r;
+        }
+
+        public TreeNode getNode() {
+            return node;
+        }
+
+        public void setNode(TreeNode node) {
+            this.node = node;
+        }
+
+        public Tuple() {
+        }
+
+        public Tuple(int r, int c, TreeNode node) {
+            this.c = c;
+            this.r = r;
+            this.node = node;
+        }
+    }
+
+    public int lengthOfLastWord(String s) {
+
+        int len = s.length();
+        int res = 0;
+        boolean is = false;
+        for (int i = len - 1; i >= 0; i--) {
+            if (s.charAt(i) != ' ') {
+                res++;
+                is = true;
+            }
+
+            if (is && s.charAt(i) == ' ') {
+                break;
+            }
+        }
+
+        return res;
+    }
+
+    public static int[] plusOne(int[] digits) {
+
+        int len = digits.length;
+        boolean max = true;
+
+        for (int digit : digits) {
+            if (digit != 9) {
+                max = false;
+                break;
+            }
+        }
+
+        int newLen = max ? len + 1 : len;
+        int[] ans = new int[newLen];
+        int d = 0;
+        boolean isLen = newLen == len;
+        for (int i = (len - 1); i >= 0; i--) {
+            int v = (i == len - 1 ? 1 : 0) + (digits[i]) + d;
+            ans[isLen ? i : i + 1] = v % 10;
+            d = v / 10;
+        }
+        if (!isLen) {
+            ans[0] = 1;
+        }
+
+        return ans;
+
+    }
+
+    public static String addBinary(String a, String b) {
+        //不建议直接使用库函数
+        // System.out.println(Integer.toBinaryString(Integer.parseInt(a,2)+Integer.parseInt(b,2)));
+        int alen = a.length() - 1;
+        int blen = b.length() - 1;
+        StringBuilder stringBuilder = new StringBuilder();
+        boolean carry = false;
+        while (alen >= 0 || blen >= 0){
+
+            if (alen < 0){
+                char bc = b.charAt(blen);
+                if (carry){
+                    if (bc == '1'){
+                        stringBuilder.append("0");
+                    }else {
+                        stringBuilder.append("1");
+                        carry = false;
+                    }
+                }else {
+                    stringBuilder.append(b.charAt(blen));
+                }
+                blen--;
+                continue;
+            }
+
+            if (blen < 0){
+                char ac = a.charAt(alen);
+                if (carry){
+                    if (ac == '1'){
+                        stringBuilder.append("0");
+                    }else {
+                        stringBuilder.append("1");
+                        carry = false;
+                    }
+                }else {
+                    stringBuilder.append(a.charAt(alen));
+                }
+                alen--;
+                continue;
+            }
+
+            if (a.charAt(alen) == '1' && b.charAt(blen) == '1'){
+                if (carry){
+                    stringBuilder.append("1");
+                }else {
+                    stringBuilder.append("0");
+                }
+                carry = true;
+            } else if (a.charAt(alen) == '0' && b.charAt(blen) == '0'){
+                if (carry){
+                    stringBuilder.append("1");
+                }else {
+                    stringBuilder.append("0");
+                }
+                carry = false;
+            }else {
+                if (carry){
+                    stringBuilder.append("0");
+                }else {
+                    stringBuilder.append("1");
+                }
+            }
+
+            alen--;
+            blen--;
+        }
+
+        if (carry){
+            stringBuilder.append("1");
+        }
+        return stringBuilder.reverse().toString();
+    }
+
+    public int mySqrt(int x) {
+        if (x == 0) {
+            return 0;
+        }
+
+        int ans = (int) Math.exp(0.5 * Math.log(x));
+        return (long) (ans + 1) * (ans + 1) <= x ? ans + 1 : ans;
+    }
+
+    
+
 
 }
