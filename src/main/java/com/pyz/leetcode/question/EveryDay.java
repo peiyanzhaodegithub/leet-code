@@ -98,9 +98,8 @@ public class EveryDay {
 
     public static void main(String[] args) {
 //2147483647
-        Set<String> list = new HashSet<>();
-        
-        System.out.println(CollectionUtils.isEmpty(list));
+
+        System.out.println(sortedArrayToBST(new int[]{-10, -3, 0, 5, 9}));
       /*  ListNode l1 = new ListNode(2, new ListNode(4, new ListNode(3)));
         ListNode l2 = new ListNode(5, new ListNode(6, new ListNode(4)));
         addTwoNumbers(l1, l2);*/
@@ -693,58 +692,58 @@ public class EveryDay {
         int blen = b.length() - 1;
         StringBuilder stringBuilder = new StringBuilder();
         boolean carry = false;
-        while (alen >= 0 || blen >= 0){
+        while (alen >= 0 || blen >= 0) {
 
-            if (alen < 0){
+            if (alen < 0) {
                 char bc = b.charAt(blen);
-                if (carry){
-                    if (bc == '1'){
+                if (carry) {
+                    if (bc == '1') {
                         stringBuilder.append("0");
-                    }else {
+                    } else {
                         stringBuilder.append("1");
                         carry = false;
                     }
-                }else {
+                } else {
                     stringBuilder.append(b.charAt(blen));
                 }
                 blen--;
                 continue;
             }
 
-            if (blen < 0){
+            if (blen < 0) {
                 char ac = a.charAt(alen);
-                if (carry){
-                    if (ac == '1'){
+                if (carry) {
+                    if (ac == '1') {
                         stringBuilder.append("0");
-                    }else {
+                    } else {
                         stringBuilder.append("1");
                         carry = false;
                     }
-                }else {
+                } else {
                     stringBuilder.append(a.charAt(alen));
                 }
                 alen--;
                 continue;
             }
 
-            if (a.charAt(alen) == '1' && b.charAt(blen) == '1'){
-                if (carry){
+            if (a.charAt(alen) == '1' && b.charAt(blen) == '1') {
+                if (carry) {
                     stringBuilder.append("1");
-                }else {
+                } else {
                     stringBuilder.append("0");
                 }
                 carry = true;
-            } else if (a.charAt(alen) == '0' && b.charAt(blen) == '0'){
-                if (carry){
+            } else if (a.charAt(alen) == '0' && b.charAt(blen) == '0') {
+                if (carry) {
                     stringBuilder.append("1");
-                }else {
+                } else {
                     stringBuilder.append("0");
                 }
                 carry = false;
-            }else {
-                if (carry){
+            } else {
+                if (carry) {
                     stringBuilder.append("0");
-                }else {
+                } else {
                     stringBuilder.append("1");
                 }
             }
@@ -753,7 +752,7 @@ public class EveryDay {
             blen--;
         }
 
-        if (carry){
+        if (carry) {
             stringBuilder.append("1");
         }
         return stringBuilder.reverse().toString();
@@ -768,7 +767,67 @@ public class EveryDay {
         return (long) (ans + 1) * (ans + 1) <= x ? ans + 1 : ans;
     }
 
-    
+
+    public static int climbStairs(int n) {
+        int p = 0, q = 0, r = 1;
+        for (int i = 1; i <= n; i++) {
+            p = q;
+            q = r;
+            r = p + q;
+        }
+        return r;
+    }
+
+    public boolean isSameTree(TreeNode p, TreeNode q) {
+
+        //深度优先搜索
+        if (p == null && q == null) {
+            return true;
+        } else if (p == null || q == null) {
+            return false;
+        } else if (p.val != q.val) {
+            return false;
+        }
+
+        return isSameTree(p.left, q.left) && isSameTree(p.right, q.right);
+
+    }
+
+    public static int countOperations(int num1, int num2) {
+
+        if (num1 == 0 || num2 == 0) {
+            return 0;
+        }
+        int ans = 1;
+        while (num1 != num2) {
+            if (num1 >= num2) {
+                num1 = num1 - num2;
+            } else {
+                num2 = num2 - num1;
+            }
+            ans++;
+        }
+
+        return ans;
+    }
+
+    public static TreeNode sortedArrayToBST(int[] nums) {
+        return helper(nums, 0, nums.length - 1);
+    }
+
+    public static TreeNode helper(int[] nums, int left, int right) {
+        if (left > right) {
+            return null;
+        }
+
+        // 总是选择中间位置左边的数字作为根节点
+        int mid = (left + right) / 2;
+
+        TreeNode root = new TreeNode(nums[mid]);
+        root.left = helper(nums, left, mid - 1);
+        root.right = helper(nums, mid + 1, right);
+        return root;
+    }
 
 
 }
