@@ -99,7 +99,7 @@ public class EveryDay {
     public static void main(String[] args) {
 //2147483647
 
-        System.out.println(sortedArrayToBST(new int[]{-10, -3, 0, 5, 9}));
+        System.out.println(sortedArrayToBST(new int[]{1, 2, 3, 4, 5,6,7,8,9,10,11,12}));
       /*  ListNode l1 = new ListNode(2, new ListNode(4, new ListNode(3)));
         ListNode l2 = new ListNode(5, new ListNode(6, new ListNode(4)));
         addTwoNumbers(l1, l2);*/
@@ -812,7 +812,8 @@ public class EveryDay {
     }
 
     public static TreeNode sortedArrayToBST(int[] nums) {
-        return helper(nums, 0, nums.length - 1);
+        TreeNode treeNode =  helper(nums, 0, nums.length - 1);
+        return treeNode;
     }
 
     public static TreeNode helper(int[] nums, int left, int right) {
@@ -820,7 +821,6 @@ public class EveryDay {
             return null;
         }
 
-        // 总是选择中间位置左边的数字作为根节点
         int mid = (left + right) / 2;
 
         TreeNode root = new TreeNode(nums[mid]);
