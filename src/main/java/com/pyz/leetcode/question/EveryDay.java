@@ -97,16 +97,17 @@ public class EveryDay {
     }
 
     public static void main(String[] args) {
-//2147483647
+        //System.out.println(isPowerOfTwoBack(8));
 
-        System.out.println(sortedArrayToBST(new int[]{1, 2, 3, 4, 5,6,7,8,9,10,11,12}));
-      /*  ListNode l1 = new ListNode(2, new ListNode(4, new ListNode(3)));
-        ListNode l2 = new ListNode(5, new ListNode(6, new ListNode(4)));
-        addTwoNumbers(l1, l2);*/
-        //System.out.println(isPalindrome(-10));
-       /* TreeNode treeNode = new TreeNode(1, new TreeNode(2, new TreeNode(4, new TreeNode(7), null), new TreeNode(5)), new TreeNode(3, null, new TreeNode(6, null, new TreeNode(8))));
-        deepestLeavesSum(treeNode);*/
-        //System.out.println(findMedianSortedArrays(new int[]{1, 3}, new int[]{2, 7}));
+        System.out.println(Integer.toBinaryString(5));
+    }
+
+    private static void p(int n) {
+        if (n == 0) {
+            return;
+        }
+        p(n / 10);
+        System.out.println(n % 10);
     }
 
     public static boolean isPalindrome(int x) {
@@ -812,7 +813,7 @@ public class EveryDay {
     }
 
     public static TreeNode sortedArrayToBST(int[] nums) {
-        TreeNode treeNode =  helper(nums, 0, nums.length - 1);
+        TreeNode treeNode = helper(nums, 0, nums.length - 1);
         return treeNode;
     }
 
@@ -829,5 +830,133 @@ public class EveryDay {
         return root;
     }
 
+    public static boolean canBeEqual(int[] target, int[] arr) {
+
+        int len = target.length;
+        for (int i = 0; i < len; i++) {
+            if (target[i] != arr[i]) {
+                int p1 = i;
+                int p2 = 0;
+                boolean b = false;
+                for (int j = i + 1; j < len; j++) {
+                    if (target[i] == arr[j]) {
+                        p2 = j;
+                        b = true;
+                        break;
+                    }
+                }
+                if (!b) {
+                    return false;
+                }
+
+                while (p1 < p2) {
+                    int t = arr[p1];
+                    arr[p1] = arr[p2];
+                    arr[p2] = t;
+                    p1++;
+                    p2--;
+                }
+            }
+        }
+        return true;
+    }
+
+    public static boolean isBalanced(TreeNode root) {
+
+        if (root == null) {
+            return true;
+        } else {
+            return Math.abs(height(root.left) - height(root.right)) <= 1 && isBalanced(root.left) && isBalanced(root.right);
+        }
+    }
+
+    private static int height(TreeNode treeNode) {
+        if (treeNode == null) {
+            return 0;
+        } else {
+            return Math.max(height(treeNode.left), height(treeNode.right)) + 1;
+        }
+    }
+
+    public static int multiply(int A, int B) {
+
+        return back(A, B);
+    }
+
+    private static int back(int a, int b) {
+        if (a == 0) {
+            return 0;
+        }
+        if (b == 1) {
+            return a;
+        }
+        if (a == 1) {
+            return b;
+        }
+        if (a > b) {
+            return multiply(b, a);
+        }
+        return b + back(a - 1, b);
+    }
+
+    public static int addDigitsBack(int num, int v) {
+
+        if (num < 10) {
+            return num;
+        }
+
+        v = num % 10 + addDigitsBack(num / 10, v);
+
+        if (v >= 10) {
+            v = addDigitsBack(v, v);
+        }
+        return v;
+    }
+
+
+    public static boolean isPowerOfTwoBack(int n) {
+        return n > 0 && (n & (n - 1)) == 0;
+    }
+
+    /*public String addBinary(String a, String b) {
+
+        int alen = a.length();
+        int blen = b.length();
+        StringBuilder stringBuilder = new StringBuilder();
+        boolean isCarry = false;
+        while (alen > 0 && blen > 0){
+            char ac = a.charAt(alen - 1);
+            char bc = b.charAt(blen - 1);
+            int v = ac + bc;
+            if (v == 2){
+                if (isCarry) {
+                    stringBuilder.append("1");
+                }else {
+                    stringBuilder.append("0");
+                }
+                isCarry = true;
+            }else if (v == 1){
+                if (isCarry){
+                    stringBuilder.append("0");
+                }else {
+                    stringBuilder.append("1");
+                }
+            }else {
+                if (isCarry){
+                    stringBuilder.append("1");
+                    isCarry = false;
+                }else {
+                    stringBuilder.append("0");
+                }
+            }
+            alen--;
+            blen--;
+        }
+        if (isCarry){
+            stringBuilder.append("1");
+        }
+
+        return stringBuilder.reverse().toString();
+    }*/
 
 }
