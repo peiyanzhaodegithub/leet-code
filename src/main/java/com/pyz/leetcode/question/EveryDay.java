@@ -99,7 +99,7 @@ public class EveryDay {
     public static void main(String[] args) {
         //System.out.println(isPowerOfTwoBack(8));
 
-        System.out.println(Integer.toBinaryString(5));
+        System.out.println(maxProduct(new int[]{10, 2, 5, 2}));
     }
 
     private static void p(int n) {
@@ -958,5 +958,57 @@ public class EveryDay {
 
         return stringBuilder.reverse().toString();
     }*/
+
+
+    public static int maxProduct(int[] nums) {
+
+        int v1 = 0, v2 = 0;
+
+        for (int num : nums) {
+            if (num >= v1) {
+                int t = v1;
+                v1 = num;
+                v2 = t;
+            } else if (v2 < num) {
+                v2 = num;
+            }
+        }
+
+        return (v1 - 1) * (v2 - 1);
+
+    }
+
+    public int minDepth(TreeNode root) {
+
+        if (root == null) {
+            return 0;
+        }
+        if (root.left == null || root.right == null){
+            return 1;
+        }
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        int index = 0;
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            index++;
+            for (int i = 0; i < size; i++) {
+                TreeNode treeNode = queue.poll();
+                if (treeNode.left == null && treeNode.right == null) {
+                    return index;
+                }
+
+                if (treeNode.right != null) {
+                    queue.offer(treeNode.right);
+                }
+                if (treeNode.left != null) {
+                    queue.offer(treeNode.left);
+                }
+            }
+        }
+        return index;
+
+    }
+
 
 }
