@@ -99,7 +99,7 @@ public class EveryDay {
     public static void main(String[] args) {
         //System.out.println(isPowerOfTwoBack(8));
 
-        System.out.println(maxProduct(new int[]{10, 2, 5, 2}));
+        System.out.println(isPalindrome("OP"));
     }
 
     private static void p(int n) {
@@ -983,7 +983,7 @@ public class EveryDay {
         if (root == null) {
             return 0;
         }
-        if (root.left == null || root.right == null){
+        if (root.left == null || root.right == null) {
             return 1;
         }
         Queue<TreeNode> queue = new LinkedList<>();
@@ -1010,5 +1010,80 @@ public class EveryDay {
 
     }
 
+    public static int[] shuffle(int[] nums, int n) {
+
+        int p = n;
+        int[] ans = new int[2 * n];
+        int index = 0;
+        for (int p1 = 0; p1 < n; p1++, p++) {
+            ans[index] = nums[p1];
+            ans[index + 1] = nums[p];
+            index = index + 2;
+        }
+
+        return ans;
+    }
+
+    public static List<Integer> getRow(int rowIndex) {
+
+        List<List<Integer>> bucket = new ArrayList<>();
+        int row = 0;
+        int cell = 0;
+        while (row <= rowIndex) {
+            if (row == 0) {
+                List<Integer> t1 = new ArrayList<>();
+                t1.add(1);
+                bucket.add(t1);
+                row++;
+                continue;
+            } else if (row == 1) {
+                List<Integer> t1 = new ArrayList<>();
+                t1.add(1);
+                t1.add(1);
+                bucket.add(t1);
+                row++;
+                continue;
+            }
+            List<Integer> l = new ArrayList<>();
+            while (bucket.get(row - 1).size() >= cell) {
+                if (cell == 0 || cell == bucket.get(row - 1).size()) {
+                    l.add(1);
+                } else {
+                    l.add(bucket.get(row - 1).get(cell) + bucket.get(row - 1).get(cell - 1));
+                }
+                cell++;
+            }
+            bucket.add(l);
+            cell = 0;
+            row++;
+        }
+
+        return bucket.get(rowIndex);
+    }
+
+
+    public static boolean isPalindrome(String s) {
+
+        int lastIndex = s.length() - 1;
+        int firstIndex = 0;
+        int is = (lastIndex + 1) % 2;
+        while (is == 0 ? lastIndex >= firstIndex : lastIndex > firstIndex) {
+            while (!Character.isLetterOrDigit(s.charAt(firstIndex)) && lastIndex > firstIndex){
+                firstIndex++;
+            }
+            while (!Character.isLetterOrDigit(s.charAt(lastIndex)) && lastIndex > firstIndex){
+                lastIndex--;
+            }
+            if (Character.toLowerCase(s.charAt(firstIndex)) != Character.toLowerCase(s.charAt(lastIndex))){
+                return false;
+            }
+            lastIndex--;
+            firstIndex++;
+        }
+
+        return true;
+
+
+    }
 
 }
