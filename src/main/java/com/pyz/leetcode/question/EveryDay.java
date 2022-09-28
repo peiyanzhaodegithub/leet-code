@@ -96,12 +96,6 @@ public class EveryDay {
 
     }
 
-    public static void main(String[] args) {
-        //System.out.println(isPowerOfTwoBack(8));
-
-        System.out.println(isPalindrome("OP"));
-    }
-
     private static void p(int n) {
         if (n == 0) {
             return;
@@ -1082,8 +1076,109 @@ public class EveryDay {
         }
 
         return true;
+    }
 
+    public static int singleNumber(int[] nums) {
+
+        Set<Integer> list = new HashSet<>();
+
+        for (int num : nums) {
+            if (list.contains(num)){
+                list.remove(num);
+            }else {
+                list.add(num);
+            }
+        }
+
+        return list.iterator().next();
+    }
+
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+
+        if (headA == null || headB == null) {
+            return null;
+        }
+        ListNode pA = headA, pB = headB;
+        while (pA != pB) {
+            //利用对象地址方式判断是否有公共点
+            pA = pA == null ? headB : pA.next;
+            pB = pB == null ? headA : pB.next;
+        }
+        return pA;
+
+
+
+
+        /*Set<ListNode> set = new HashSet<>();
+
+        ListNode temp1 = headA;
+        while (temp1 != null){
+            set.add(temp1);
+            temp1 = temp1.next;
+        }
+
+
+        ListNode temp2 = headB;
+        while (temp2 != null){
+            if (set.contains(temp2)){
+                return temp2;
+            }
+            temp2 = temp2.next;
+        }
+
+        return null;*/
 
     }
+
+
+    public String convertToTitle(int columnNumber) {
+
+        StringBuilder stringBuilder = new StringBuilder();
+        while (columnNumber > 0){
+            int a0 = (columnNumber - 1) % 26 + 1;
+            stringBuilder.append((char) (a0 - 1 + 'A'));
+            columnNumber = (columnNumber - a0) /26;
+        }
+
+        return stringBuilder.reverse().toString();
+
+    }
+
+
+
+
+
+
+
+
+    public static void main(String[] args) {
+        System.out.println(String.valueOf((char)(3+'A')));
+        int[] nums = new int[]{1,1,2,2,3};
+        System.out.println(singleNumber(nums));
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }
