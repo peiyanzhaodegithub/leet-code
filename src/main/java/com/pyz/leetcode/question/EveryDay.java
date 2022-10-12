@@ -1062,13 +1062,13 @@ public class EveryDay {
         int firstIndex = 0;
         int is = (lastIndex + 1) % 2;
         while (is == 0 ? lastIndex >= firstIndex : lastIndex > firstIndex) {
-            while (!Character.isLetterOrDigit(s.charAt(firstIndex)) && lastIndex > firstIndex){
+            while (!Character.isLetterOrDigit(s.charAt(firstIndex)) && lastIndex > firstIndex) {
                 firstIndex++;
             }
-            while (!Character.isLetterOrDigit(s.charAt(lastIndex)) && lastIndex > firstIndex){
+            while (!Character.isLetterOrDigit(s.charAt(lastIndex)) && lastIndex > firstIndex) {
                 lastIndex--;
             }
-            if (Character.toLowerCase(s.charAt(firstIndex)) != Character.toLowerCase(s.charAt(lastIndex))){
+            if (Character.toLowerCase(s.charAt(firstIndex)) != Character.toLowerCase(s.charAt(lastIndex))) {
                 return false;
             }
             lastIndex--;
@@ -1083,9 +1083,9 @@ public class EveryDay {
         Set<Integer> list = new HashSet<>();
 
         for (int num : nums) {
-            if (list.contains(num)){
+            if (list.contains(num)) {
                 list.remove(num);
-            }else {
+            } else {
                 list.add(num);
             }
         }
@@ -1134,10 +1134,10 @@ public class EveryDay {
     public String convertToTitle(int columnNumber) {
 
         StringBuilder stringBuilder = new StringBuilder();
-        while (columnNumber > 0){
+        while (columnNumber > 0) {
             int a0 = (columnNumber - 1) % 26 + 1;
             stringBuilder.append((char) (a0 - 1 + 'A'));
-            columnNumber = (columnNumber - a0) /26;
+            columnNumber = (columnNumber - a0) / 26;
         }
 
         return stringBuilder.reverse().toString();
@@ -1145,40 +1145,70 @@ public class EveryDay {
     }
 
 
+    public int numComponents(ListNode head, int[] nums) {
 
+        int res = 0;
+        boolean isIns = false;
+        Set<Integer> numSet = new HashSet<>();
+        for (int num : nums) {
+            numSet.add(num);
+        }
 
+        while (head != null) {
+            if (numSet.contains(head.val)) {
+                if (!isIns) {
+                    isIns = true;
+                    res++;
+                }
+            } else {
+                isIns = false;
+            }
+            head = head.next;
+        }
 
+        return res;
 
-
-
-    public static void main(String[] args) {
-        System.out.println(String.valueOf((char)(3+'A')));
-        int[] nums = new int[]{1,1,2,2,3};
-        System.out.println(singleNumber(nums));
     }
 
+    public int majorityElement(int[] nums) {
 
+        int count = 0;
+        Integer candidate = null;
+        for (int num : nums) {
+            if (count == 0) {
+                candidate = num;
+            }
 
+            if (candidate != num){
+                count--;
+            }else {
+                count++;
+            }
+        }
 
+        return candidate;
 
+    }
 
+    public static int titleToNumber(String columnTitle) {
 
+        int number = 0;
+        int multiple = 1;
+        for (int i = columnTitle.length() - 1; i >= 0; i--) {
+            int k = columnTitle.charAt(i) - 'A' + 1;
+            number += k * multiple;
+            multiple *= 26;
+        }
+        return number;
 
+    }
 
+    public static void main(String[] args) {
+        System.out.println(
+                titleToNumber("AB")
+        );
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+    }
 
 
 }
