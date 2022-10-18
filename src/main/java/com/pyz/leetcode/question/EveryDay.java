@@ -1179,9 +1179,9 @@ public class EveryDay {
                 candidate = num;
             }
 
-            if (candidate != num){
+            if (candidate != num) {
                 count--;
-            }else {
+            } else {
                 count++;
             }
         }
@@ -1203,9 +1203,40 @@ public class EveryDay {
 
     }
 
+
+    public static int longestPalindromeInt(String s) {
+
+        Map<Character, Integer> map = new HashMap<>();
+        for (int i = 0; i < s.length(); i++) {
+            if (map.containsKey(s.charAt(i))) {
+                map.put(s.charAt(i), map.get(s.charAt(i)) + 1);
+            } else {
+                map.put(s.charAt(i), 1);
+            }
+        }
+
+        boolean isPlus = false;
+        int res = 0;
+        for (Map.Entry<Character, Integer> entry : map.entrySet()) {
+            res = res + entry.getValue() / 2;
+            if (!isPlus && entry.getValue() % 2 > 0) {
+                isPlus = true;
+            }
+        }
+
+        return res * 2 + (isPlus ? 1 : 0);
+    }
+
+
+    public static boolean isHappy(int n) {
+
+
+    }
+
+
     public static void main(String[] args) {
         System.out.println(
-                titleToNumber("AB")
+                isHappy(2)
         );
 
     }
