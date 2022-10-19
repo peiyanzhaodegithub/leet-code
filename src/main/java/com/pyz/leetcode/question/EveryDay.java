@@ -1230,13 +1230,81 @@ public class EveryDay {
 
     public static boolean isHappy(int n) {
 
+        //判断是否存在环
+        Set<Integer> set = new HashSet<>();
+        while (n != 1){
+            if (n < 10){
+                n = n * n;
+                continue;
+            }
+
+            int t = 0;
+            while (n > 0){
+                t = t + (n < 10 ? n * n : (n % 10) * (n % 10));
+                n = n < 10 ? 0 : n / 10;
+            }
+
+            if (set.contains(t)){
+                return false;
+            }else {
+                set.add(t);
+            }
+
+            n = t;
+        }
+
+        return true;
+    }
+
+    public static int countStudents(int[] students, int[] sandwiches) {
+
+        Queue<Integer> studentQueue = new LinkedList<>();
+        int len = sandwiches.length;
+        for (int i = 0; i < len; i++) {
+            studentQueue.offer(students[i]);
+        }
+
+        for (int i = 0; i < len; i++) {
+            if (studentQueue.peek() == sandwiches[i]){
+                studentQueue.poll();
+                continue;
+            }
+
+            int t = 0;
+            int ssize = studentQueue.size();
+            while (t <= ssize){
+                if (t == ssize){
+                    return ssize;
+                }
+                if (studentQueue.peek() == sandwiches[i]){
+                    studentQueue.poll();
+                    break;
+                }else {
+                    int c = studentQueue.poll();
+                    studentQueue.offer(c);
+                }
+                t++;
+            }
+        }
+
+        return 0;
 
     }
 
+    public static boolean isIsomorphic(String s, String t) {
+
+        for (int i = 0; i < s.length(); i++) {
+            if (s.indexOf(s.charAt(i)) != t.indexOf(t.charAt(i))){
+                return false;
+            }
+        }
+
+        return true;
+    }
 
     public static void main(String[] args) {
         System.out.println(
-                isHappy(2)
+                isIsomorphic("foo","egg")
         );
 
     }
