@@ -1232,21 +1232,21 @@ public class EveryDay {
 
         //判断是否存在环
         Set<Integer> set = new HashSet<>();
-        while (n != 1){
-            if (n < 10){
+        while (n != 1) {
+            if (n < 10) {
                 n = n * n;
                 continue;
             }
 
             int t = 0;
-            while (n > 0){
+            while (n > 0) {
                 t = t + (n < 10 ? n * n : (n % 10) * (n % 10));
                 n = n < 10 ? 0 : n / 10;
             }
 
-            if (set.contains(t)){
+            if (set.contains(t)) {
                 return false;
-            }else {
+            } else {
                 set.add(t);
             }
 
@@ -1265,21 +1265,21 @@ public class EveryDay {
         }
 
         for (int i = 0; i < len; i++) {
-            if (studentQueue.peek() == sandwiches[i]){
+            if (studentQueue.peek() == sandwiches[i]) {
                 studentQueue.poll();
                 continue;
             }
 
             int t = 0;
             int ssize = studentQueue.size();
-            while (t <= ssize){
-                if (t == ssize){
+            while (t <= ssize) {
+                if (t == ssize) {
                     return ssize;
                 }
-                if (studentQueue.peek() == sandwiches[i]){
+                if (studentQueue.peek() == sandwiches[i]) {
                     studentQueue.poll();
                     break;
-                }else {
+                } else {
                     int c = studentQueue.poll();
                     studentQueue.offer(c);
                 }
@@ -1294,7 +1294,7 @@ public class EveryDay {
     public static boolean isIsomorphic(String s, String t) {
 
         for (int i = 0; i < s.length(); i++) {
-            if (s.indexOf(s.charAt(i)) != t.indexOf(t.charAt(i))){
+            if (s.indexOf(s.charAt(i)) != t.indexOf(t.charAt(i))) {
                 return false;
             }
         }
@@ -1302,9 +1302,25 @@ public class EveryDay {
         return true;
     }
 
+
+    public static int partitionDisjoint(int[] nums) {
+
+        int n = nums.length;
+        int leftMax = nums[0], leftPos = 0, curMax = nums[0];
+        for (int i = 1; i < n - 1; i++) {
+            curMax = Math.max(curMax, nums[i]);
+            if (nums[i] < leftMax) {
+                leftMax = curMax;
+                leftPos = i;
+            }
+        }
+        return leftPos + 1;
+    }
+
+
     public static void main(String[] args) {
         System.out.println(
-                isIsomorphic("foo","egg")
+                partitionDisjoint(new int[]{1,1,1,0,6,0,12})
         );
 
     }
