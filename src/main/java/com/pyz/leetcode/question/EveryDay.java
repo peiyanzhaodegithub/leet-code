@@ -1317,10 +1317,78 @@ public class EveryDay {
         return leftPos + 1;
     }
 
+    public static boolean containsNearbyDuplicate(int[] nums, int k) {
+
+        Map<Integer, Integer> map = new HashMap<>();
+        int len = nums.length;
+        for (int i = 0; i < len; i++) {
+            if (map.containsKey(nums[i]) && Math.abs(map.get(nums[i]) - i) <= k) {
+                return true;
+            } else {
+                map.put(nums[i], i);
+            }
+        }
+
+        return false;
+    }
+
+    public static List<String> summaryRanges(int[] nums) {
+        int len = nums.length;
+        List<String> list = new ArrayList<>();
+        if (len == 0){
+            return list;
+        }
+
+        if (len == 1){
+            list.add(nums[0]+"");
+            return list;
+        }
+        int start = nums[0];
+        int end = nums[0];
+
+        for (int i = 1; i < len; i++) {
+            if (nums[i] == end + 1){
+                end = end + 1;
+            }else {
+                if (start == end){
+                    list.add(start+"");
+                }else {
+                    list.add(start + "->" + end);
+                }
+                start = nums[i];
+                end = nums[i];
+            }
+            if (i == len - 1){
+                if (start == end){
+                    list.add(start+"");
+                }else {
+                    list.add(start + "->" + end);
+                }
+            }
+        }
+
+
+        return list;
+    }
+
+    public boolean isPalindrome(ListNode head) {
+
+        if (head == null){
+            return true;
+        }
+        ListNode firstHalfEnd = endOfFirstHalf(head);
+
+
+    }
+
+    public static ListNode endOfFirstHalf(ListNode head){
+
+
+    }
 
     public static void main(String[] args) {
         System.out.println(
-                partitionDisjoint(new int[]{1,1,1,0,6,0,12})
+                summaryRanges(new int[]{0,2,3,4,6,8,9})
         );
 
     }
