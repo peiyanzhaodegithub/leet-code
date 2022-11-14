@@ -5,6 +5,7 @@ import org.springframework.util.CollectionUtils;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class EveryDay {
 
@@ -1335,60 +1336,90 @@ public class EveryDay {
     public static List<String> summaryRanges(int[] nums) {
         int len = nums.length;
         List<String> list = new ArrayList<>();
-        if (len == 0){
+        if (len == 0) {
             return list;
         }
 
-        if (len == 1){
-            list.add(nums[0]+"");
+        if (len == 1) {
+            list.add(nums[0] + "");
             return list;
         }
         int start = nums[0];
         int end = nums[0];
 
         for (int i = 1; i < len; i++) {
-            if (nums[i] == end + 1){
+            if (nums[i] == end + 1) {
                 end = end + 1;
-            }else {
-                if (start == end){
-                    list.add(start+"");
-                }else {
+            } else {
+                if (start == end) {
+                    list.add(start + "");
+                } else {
                     list.add(start + "->" + end);
                 }
                 start = nums[i];
                 end = nums[i];
             }
-            if (i == len - 1){
-                if (start == end){
-                    list.add(start+"");
-                }else {
+            if (i == len - 1) {
+                if (start == end) {
+                    list.add(start + "");
+                } else {
                     list.add(start + "->" + end);
                 }
             }
         }
 
-
         return list;
     }
 
-    public boolean isPalindrome(ListNode head) {
+    public static List<String> binaryTreePaths(TreeNode root) {
 
-        if (head == null){
-            return true;
+        List<String> res = new ArrayList<>();
+        constructPaths(root, "", res);
+        return res;
+    }
+
+    public static void constructPaths(TreeNode root, String path, List<String> paths) {
+        if (root != null) {
+            StringBuffer stringBuffer = new StringBuffer(path);
+            stringBuffer.append(Integer.toString(root.val));
+            if (root.left == null && root.right == null) {
+                paths.add(stringBuffer.toString());
+            } else {
+                stringBuffer.append("->");
+                constructPaths(root.left, stringBuffer.toString(), paths);
+                constructPaths(root.right, stringBuffer.toString(), paths);
+            }
         }
-        ListNode firstHalfEnd = endOfFirstHalf(head);
+    }
 
+    public static int sumOfLeftLeaves(TreeNode root) {
+        return root == null ? 0 : sum(root);
+    }
+
+    public static int sum(TreeNode root) {
+
+        int ans = 0;
+        if (root.left != null){
+            ans += isLeafNode(root.left) ? root.left.val : sum(root.left);
+        }
+
+        if (!isBalanced(root.right) && root.right != null){
+            ans += sum(root.right);
+        }
+
+        return ans;
 
     }
 
-    public static ListNode endOfFirstHalf(ListNode head){
-
-
+    public static boolean isLeafNode(TreeNode node) {
+        return node.left == null && node.right == null;
     }
+
 
     public static void main(String[] args) {
+        TreeNode treeNode = new TreeNode(1, new TreeNode(2, new TreeNode(4), new TreeNode(5)), new TreeNode(3, null, new TreeNode(6)));
         System.out.println(
-                summaryRanges(new int[]{0,2,3,4,6,8,9})
+                sumOfLeftLeaves(treeNode)
         );
 
     }
