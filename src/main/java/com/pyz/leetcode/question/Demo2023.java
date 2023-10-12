@@ -417,19 +417,15 @@ public class Demo2023 {
     }*/
 
 
-    public static void main(String[] args) {
-        merge1(new int[]{4,5,6,0,0,0},3,new int[]{1,2,3},3);
-    }
-
     public static void merge1(int[] nums1, int m, int[] nums2, int n) {
 
         int p = 0;
-        int max = m+n-1;
+        int max = m + n - 1;
         for (int i = 0; i < max; i++) {
-            if (p == n){
+            if (p == n) {
                 break;
             }
-            if (nums1[i] > nums2[p]){
+            if (nums1[i] > nums2[p]) {
                 nums1[m] = nums1[i];
                 nums1[i] = nums2[p];
                 p++;
@@ -438,7 +434,7 @@ public class Demo2023 {
 
         }
 
-        if (p < n){
+        if (p < n) {
             for (int i = p; i < n; i++) {
                 nums1[m] = nums2[i];
                 m++;
@@ -449,58 +445,158 @@ public class Demo2023 {
     }
 
 
-
-
+    public static void main(String[] args) {
+        LRUCache cache = new LRUCache(2);
+        cache.put(1, 1);
+        cache.put(2, 2);
+        cache.get(1);
+        cache.put(3, 3);
+        cache.get(2);
+        cache.put(4, 4);
+        cache.get(1);
+        cache.get(3);
+        cache.get(4);
+    }
 
 
     static class LRUCache {
 
 
-        private LRUCache prev;
-        private LRUCache next;
-        private Integer v;
-        private Integer k;
+        class Node {
+            private Node next;
+            private Node prev;
+            private Integer v;
+            private Integer k;
 
+            public Node() {
+            }
 
-        public LRUCache(int capacity) {
-
+            public Node(Node next, Node prev, Integer v, Integer k) {
+                this.next = next;
+                this.prev = prev;
+                this.v = v;
+                this.k = k;
+            }
         }
 
-        public int get(int key) {
 
+        private Node head, tail;
+        private int capacity;
+        private int size;
+        private Map<Integer, Node> cache = new HashMap<>();
+
+        public LRUCache(int capacity) {
+            this.capacity = capacity;
+            this.size = 0;
+            head = new Node();
+            tail = new Node();
+            head.next = tail;
+            tail.prev = head;
+        }
+
+
+        public int get(int key) {
+            Node node = cache.get(key);
+            if (node == null) {
+                //不存在返回-1
+                return -1;
+            }
+            moveToHead(node);
+            return node.v;
         }
 
         public void put(int key, int value) {
 
+            Node cacheNode = cache.get(key);
+            if (cacheNode == null) {
+                if (size >= capacity) {
+                    //移除链表尾部node
+                    Node tail = removeTail();
+                    //删除缓存
+                    cache.remove(tail.k);
+                    --size;
+                }
+
+                Node node = new Node();
+                node.k = key;
+                node.v = value;
+                cache.put(key, node);
+                //将node添加到链表头
+                addHead(node);
+                ++size;
+            } else {
+                cacheNode.v = value;
+                moveToHead(cacheNode);
+            }
+        }
+
+        private void addHead(Node node) {
+            node.prev = head;
+            node.next = head.next;
+            head.next.prev = node;
+            head.next = node;
+        }
+
+        private void removeNode(Node node) {
+            node.prev.next = node.next;
+            node.next.prev = node.prev;
+        }
+
+        private void moveToHead(Node node) {
+            removeNode(node);
+            addHead(node);
+        }
+
+        private Node removeTail() {
+            Node tail = this.tail.prev;
+            removeNode(tail);
+            return tail;
+        }
+
+
+        public LRUCache() {
+        }
+
+        public Node getHead() {
+            return head;
+        }
+
+        public void setHead(Node head) {
+            this.head = head;
+        }
+
+        public Node getTail() {
+            return tail;
+        }
+
+        public void setTail(Node tail) {
+            this.tail = tail;
+        }
+
+        public int getCapacity() {
+            return capacity;
+        }
+
+        public void setCapacity(int capacity) {
+            this.capacity = capacity;
+        }
+
+        public int getSize() {
+            return size;
+        }
+
+        public void setSize(int size) {
+            this.size = size;
+        }
+
+        public Map<Integer, Node> getCache() {
+            return cache;
+        }
+
+        public void setCache(Map<Integer, Node> cache) {
+            this.cache = cache;
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }
