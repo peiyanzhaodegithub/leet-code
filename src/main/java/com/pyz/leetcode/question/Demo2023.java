@@ -1,5 +1,11 @@
 package com.pyz.leetcode.question;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.RandomAccessFile;
+import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
@@ -445,7 +451,7 @@ public class Demo2023 {
     }
 
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         LRUCache cache = new LRUCache(2);
         cache.put(1, 1);
         cache.put(2, 2);
@@ -456,7 +462,7 @@ public class Demo2023 {
         cache.get(1);
         cache.get(3);
         cache.get(4);
-    }
+    }*/
 
 
     static class LRUCache {
@@ -596,6 +602,99 @@ public class Demo2023 {
         public void setCache(Map<Integer, Node> cache) {
             this.cache = cache;
         }
+    }
+
+    public static int removeDuplicates(int[] nums) {
+
+        int slow = 2;
+        int fast = 2;
+        int n = nums.length;
+        while (fast < n) {
+            if (nums[slow - 2] != nums[fast]) {
+                nums[slow] = nums[fast];
+                ++slow;
+            }
+            ++fast;
+        }
+
+        return slow;
+    }
+
+
+    public static int[] twoSum(int[] nums, int target) {
+
+
+        //方法 1
+        /*Map<Integer,List<Integer>> map = new HashMap<>();
+        for (int i = 0; i < nums.length; i++) {
+            List<Integer> indexList = map.getOrDefault(nums[i], new ArrayList<>());
+            indexList.add(i);
+            map.put(nums[i], indexList);
+        }
+
+        for (int i = 0; i < nums.length; i++) {
+            int val = target - nums[i];
+            List<Integer> idxList = map.get(val);
+            if (idxList == null){
+                continue;
+            }
+
+            if (val == nums[i] ){
+                if (idxList.size() != 2) {
+                    continue;
+                }else {
+                    return new int[]{i, idxList.get(1)};
+                }
+            }
+
+            return new int[]{i, idxList.get(0)};
+        }
+
+        return null;*/
+
+        //方法2
+        for (int i = 0; i < nums.length; i++) {
+            int val = target - nums[i];
+
+            for (int j = i + 1; j < nums.length; j++) {
+                if (val == nums[j]) {
+                    return new int[]{i, j};
+                }
+            }
+
+        }
+        return null;
+
+    }
+
+    public static void main(String[] args) {
+        merge2(new int[]{4,5,6,0,0,0}, 3, new int[]{1,2,3}, 3);
+    }
+
+
+    public static void merge2(int[] nums1, int m, int[] nums2, int n) {
+
+        int insP = m + n - 1;
+
+        while (m > 0 && n > 0) {
+            if (nums1[m - 1] > nums2[n - 1]) {
+                nums1[insP] = nums1[m-1];
+                m--;
+            }else {
+                nums1[insP] = nums2[n-1];
+                n--;
+            }
+            insP--;
+        }
+
+        if (n> 0){
+            for (int i = n; i > 0; i--) {
+                nums1[insP] = nums2[i-1];
+                insP--;
+            }
+        }
+        System.out.println(Arrays.toString(nums1));
+
     }
 
 
