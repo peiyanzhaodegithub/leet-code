@@ -667,9 +667,6 @@ public class Demo2023 {
 
     }
 
-    public static void main(String[] args) {
-        merge2(new int[]{4,5,6,0,0,0}, 3, new int[]{1,2,3}, 3);
-    }
 
 
     public static void merge2(int[] nums1, int m, int[] nums2, int n) {
@@ -696,6 +693,72 @@ public class Demo2023 {
         System.out.println(Arrays.toString(nums1));
 
     }
+
+    public static void main(String[] args) {
+        System.out.println(removeElement1(new int[]{3,2,2,3}, 3));
+    }
+
+
+    public static int removeElement1(int[] nums, int val) {
+
+        int slow = 0;
+        int len = nums.length;
+
+        for (int i = 0; i < len; i++) {
+            if (nums[i] != val){
+                nums[slow] = nums[i];
+                slow++;
+            }
+        }
+
+        return slow;
+
+
+
+    }
+
+    public List<List<String>> groupAnagrams(String[] strs) {
+
+        Map<String,List<String>> map = new HashMap<>();
+
+        for (String str : strs) {
+            char[] chars = str.toCharArray();
+            Arrays.sort(chars);
+            String key = new String(chars);
+            List<String > list = map.getOrDefault(key,new ArrayList<>());
+            list.add(str);
+            map.put(key, list);
+        }
+
+        return new ArrayList<>(map.values());
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 }
