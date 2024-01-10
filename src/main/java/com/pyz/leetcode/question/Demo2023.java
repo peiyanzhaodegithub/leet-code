@@ -694,9 +694,7 @@ public class Demo2023 {
 
     }
 
-    public static void main(String[] args) {
-        System.out.println(removeElement1(new int[]{3,2,2,3}, 3));
-    }
+
 
 
     public static int removeElement1(int[] nums, int val) {
@@ -734,6 +732,73 @@ public class Demo2023 {
 
 
     }
+
+    public static int longestConsecutive(int[] nums) {
+
+        int len = nums.length;
+        if (len < 2){
+            return len;
+        }
+        Arrays.sort(nums);
+
+        int currMax = 1;
+        int temp = 1;
+        for (int i = 0; i < len; i++) {
+            if (i+1 == len){
+                currMax = Math.max(currMax, temp);
+                break;
+            }
+            if (nums[i] == nums[i+1]){
+                continue;
+            }
+            if (nums[i] + 1 == nums[i+1]){
+                currMax = Math.max(currMax, ++temp);
+            }else {
+                temp = 1;
+            }
+        }
+        return currMax;
+
+    }
+
+    public static int removeDuplicates1(int[] nums) {
+
+        int p = 0;
+        for (int i = 1; i < nums.length; i++) {
+            if (nums[p] != nums[i]){
+                nums[p+1] = nums[i];
+                p++;
+            }
+        }
+
+        return p+1;
+    }
+
+
+    public static void main(String[] args) {
+        System.out.println(removeDuplicates1(new int[]{0,0,1,1,1,2,2,3,3,4}));
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
