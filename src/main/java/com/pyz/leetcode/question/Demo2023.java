@@ -668,25 +668,24 @@ public class Demo2023 {
     }
 
 
-
     public static void merge2(int[] nums1, int m, int[] nums2, int n) {
 
         int insP = m + n - 1;
 
         while (m > 0 && n > 0) {
             if (nums1[m - 1] > nums2[n - 1]) {
-                nums1[insP] = nums1[m-1];
+                nums1[insP] = nums1[m - 1];
                 m--;
-            }else {
-                nums1[insP] = nums2[n-1];
+            } else {
+                nums1[insP] = nums2[n - 1];
                 n--;
             }
             insP--;
         }
 
-        if (n> 0){
+        if (n > 0) {
             for (int i = n; i > 0; i--) {
-                nums1[insP] = nums2[i-1];
+                nums1[insP] = nums2[i - 1];
                 insP--;
             }
         }
@@ -695,15 +694,13 @@ public class Demo2023 {
     }
 
 
-
-
     public static int removeElement1(int[] nums, int val) {
 
         int slow = 0;
         int len = nums.length;
 
         for (int i = 0; i < len; i++) {
-            if (nums[i] != val){
+            if (nums[i] != val) {
                 nums[slow] = nums[i];
                 slow++;
             }
@@ -712,18 +709,17 @@ public class Demo2023 {
         return slow;
 
 
-
     }
 
     public List<List<String>> groupAnagrams(String[] strs) {
 
-        Map<String,List<String>> map = new HashMap<>();
+        Map<String, List<String>> map = new HashMap<>();
 
         for (String str : strs) {
             char[] chars = str.toCharArray();
             Arrays.sort(chars);
             String key = new String(chars);
-            List<String > list = map.getOrDefault(key,new ArrayList<>());
+            List<String> list = map.getOrDefault(key, new ArrayList<>());
             list.add(str);
             map.put(key, list);
         }
@@ -736,7 +732,7 @@ public class Demo2023 {
     public static int longestConsecutive(int[] nums) {
 
         int len = nums.length;
-        if (len < 2){
+        if (len < 2) {
             return len;
         }
         Arrays.sort(nums);
@@ -744,16 +740,16 @@ public class Demo2023 {
         int currMax = 1;
         int temp = 1;
         for (int i = 0; i < len; i++) {
-            if (i+1 == len){
+            if (i + 1 == len) {
                 currMax = Math.max(currMax, temp);
                 break;
             }
-            if (nums[i] == nums[i+1]){
+            if (nums[i] == nums[i + 1]) {
                 continue;
             }
-            if (nums[i] + 1 == nums[i+1]){
+            if (nums[i] + 1 == nums[i + 1]) {
                 currMax = Math.max(currMax, ++temp);
-            }else {
+            } else {
                 temp = 1;
             }
         }
@@ -765,65 +761,57 @@ public class Demo2023 {
 
         int p = 0;
         for (int i = 1; i < nums.length; i++) {
-            if (nums[p] != nums[i]){
-                nums[p+1] = nums[i];
+            if (nums[p] != nums[i]) {
+                nums[p + 1] = nums[i];
                 p++;
             }
         }
 
-        return p+1;
+        return p + 1;
+    }
+
+    public static int majorityElement(int[] nums) {
+        Map<Integer, Integer> map = new HashMap<>();
+
+        int len = nums.length;
+        int max = len % 2 > 0 ? 1 + len / 2 : len / 2;
+        for (int num : nums) {
+            int v = map.getOrDefault(num, 0);
+            if (v + 1 >= max) {
+                return num;
+            }
+            map.put(num, v + 1);
+        }
+
+        return 0;
+    }
+
+
+    public static void moveZeroes(int[] nums) {
+
+        int p = 0;
+        if (nums.length == 1){
+            return;
+        }
+
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] != 0) {
+                nums[p] = nums[i];
+                if (p != i){
+                    nums[i] = 0;
+                }
+                p++;
+            }
+        }
+
+
     }
 
 
     public static void main(String[] args) {
-        System.out.println(removeDuplicates1(new int[]{0,0,1,1,1,2,2,3,3,4}));
+        System.out.println();
+        moveZeroes(new int[]{1});
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }
