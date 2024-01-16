@@ -31,7 +31,6 @@ public class Demo2024 {
         System.arraycopy(ints, 0, nums, 0, len);
     }
 
-
     public static int maxProfit(int[] prices) {
 
         int ans = 0;
@@ -60,7 +59,7 @@ public class Demo2024 {
                     list.add(Arrays.asList(nums[i], nums[l], nums[r]));
                     l++;
                     r--;
-                }else if (sum > 0) {
+                } else if (sum > 0) {
                     r--;
                 } else {
                     l++;
@@ -72,8 +71,71 @@ public class Demo2024 {
         return new ArrayList<>(list);
     }
 
+
+    /*public static int maxProfit2(int[] prices) {
+
+        int ans = 0;
+        int len = prices.length;
+        int minP = 0;
+        while (minP < len) {
+            int tempAns = 0;
+            int tempMinp = minP;
+            for (int j = tempMinp + 1; j < len; j++) {
+                if (prices[tempMinp] >= prices[j]) {
+                    continue;
+                }
+                tempAns = tempAns + (prices[j] - prices[tempMinp]);
+                tempMinp = j + 1;
+            }
+
+            ans = Math.max(tempAns, ans);
+            minP++;
+        }
+
+        return ans;
+    }*/
+
+    public static int maxProfit2(int[] prices) {
+
+        if (prices == null || prices.length <= 1) return 0;
+
+        int ans = 0;
+        for (int i = 1; i < prices.length; i++) {
+            if (prices[i] > prices[i - 1]) {
+                ans += (prices[i] - prices[i - 1]);
+            }
+        }
+
+        return ans;
+
+    }
+
+    public int trap(int[] height) {
+
+        int ans = 0;
+        int len = height.length;
+        if (len < 3) return 0;
+        int[] leftMaxArr = new int[len];
+        int[] rightMaxArr = new int[len];
+        leftMaxArr[0] = height[0];
+        rightMaxArr[len - 1] = height[len-1];
+        for (int i = 1; i < len; i++) {
+            leftMaxArr[i] = Math.max(leftMaxArr[i -1], height[i]);
+        }
+
+        for (int i = len -2; i >= 0; i--) {
+            rightMaxArr[i] = Math.max(rightMaxArr[i + 1], height[i]);
+        }
+
+        for (int i = 0; i < len; i++) {
+            ans += Math.min(leftMaxArr[i], rightMaxArr[i]) - height[i];
+        }
+
+        return ans;
+    }
+
     public static void main(String[] args) {
-        System.out.println(threeSum(new int[]{-1, 0, 1, 2, -1, -4}));
+        System.out.println(maxProfit2(new int[]{6, 1, 3, 2, 4, 7}));
     }
 
 
