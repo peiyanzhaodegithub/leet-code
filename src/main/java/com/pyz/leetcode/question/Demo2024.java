@@ -169,10 +169,28 @@ public class Demo2024 {
         return false;
     }
 
+    public static int jump(int[] nums) {
+
+        int position = nums.length- 1;//距离，需要走的最大步数
+        int steps = 0;//答案，最终走的步数
+
+        while (position > 0){
+            for (int i = 0; i < position; i++) {
+                if (1 + nums[i] >= position){
+                    //找到到达终点并且距离终点最远的值
+                    steps++;
+                    position = i;
+                    break;
+                }
+            }
+
+        }
+       return steps;
+    }
 
 
     public static void main(String[] args) {
-        System.out.println(lengthOfLongestSubstring("pwwkew"));
+        System.out.println(jump(new int[]{0}));
     }
 
 
