@@ -134,9 +134,70 @@ public class Demo2024 {
         return ans;
     }
 
-    public static void main(String[] args) {
-        System.out.println(maxProfit2(new int[]{6, 1, 3, 2, 4, 7}));
+    public static int lengthOfLongestSubstring(String s) {
+
+        int len = s.length();
+        int ans = 0;
+        HashMap<Character, Integer> map = new HashMap<Character, Integer>();
+        int left = 0;
+        for (int i = 0; i < len; i++) {
+            if (map.containsKey(s.charAt(i))){
+                left = Math.max(left, map.get(s.charAt(i)) + 1);
+            }
+
+            ans = Math.max(ans, i - left + 1);
+            map.put(s.charAt(i), i);
+        }
+
+        return ans;
     }
+
+
+    public static boolean canJump(int[] nums) {
+
+        int step = 0;
+        int len = nums.length;
+        for (int i = 0; i < len; i++) {
+            if (i <= step){
+                step = Math.max(step, i + nums[i]);
+                if (step>=len-1){
+                    return true;
+                }
+            }
+        }
+        //[2, 3, 1, 1, 4]
+        return false;
+    }
+
+
+
+    public static void main(String[] args) {
+        System.out.println(lengthOfLongestSubstring("pwwkew"));
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 }
