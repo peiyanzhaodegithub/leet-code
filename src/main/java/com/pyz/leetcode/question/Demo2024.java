@@ -188,9 +188,60 @@ public class Demo2024 {
        return steps;
     }
 
+    public static int hIndex(int[] citations) {
+
+        Arrays.sort(citations);
+
+        int len = citations.length;
+        for (int i = 0; i < len; i++) {
+            if (citations[i]>=len-i){
+                return len - i;
+            }
+        }
+        return 0;
+
+    }
+
+    public static List<Integer> findAnagrams(String s, String p) {
+
+        int slen = s.length();
+        int plen = p.length();
+        if (slen < plen) {
+            return new ArrayList<Integer>();
+        }
+        List<Integer> ans = new ArrayList<>();
+
+        int[] scount= new int[26];
+        int[] pcount= new int[26];
+        for (int i = 0; i < plen; i++) {
+            ++scount[s.charAt(i) - 'a'];
+            ++pcount[p.charAt(i) - 'a'];
+        }
+        if (Arrays.equals(scount, pcount)) {
+            ans.add(0);
+        }
+
+        for (int i = 0; i < slen - plen; i++) {
+            --scount[s.charAt(i) - 'a'];
+            ++scount[s.charAt(i + plen) - 'a'];
+
+            if (Arrays.equals(scount, pcount)) {
+                ans.add(i + 1);
+            }
+
+        }
+
+        return ans;
+
+    }
+
+
+
+
+
 
     public static void main(String[] args) {
-        System.out.println(jump(new int[]{0}));
+        System.out.println(findAnagrams("baa","aa"));
     }
 
 
