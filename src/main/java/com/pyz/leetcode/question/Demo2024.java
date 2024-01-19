@@ -118,12 +118,12 @@ public class Demo2024 {
         int[] leftMaxArr = new int[len];
         int[] rightMaxArr = new int[len];
         leftMaxArr[0] = height[0];
-        rightMaxArr[len - 1] = height[len-1];
+        rightMaxArr[len - 1] = height[len - 1];
         for (int i = 1; i < len; i++) {
-            leftMaxArr[i] = Math.max(leftMaxArr[i -1], height[i]);
+            leftMaxArr[i] = Math.max(leftMaxArr[i - 1], height[i]);
         }
 
-        for (int i = len -2; i >= 0; i--) {
+        for (int i = len - 2; i >= 0; i--) {
             rightMaxArr[i] = Math.max(rightMaxArr[i + 1], height[i]);
         }
 
@@ -141,7 +141,7 @@ public class Demo2024 {
         HashMap<Character, Integer> map = new HashMap<Character, Integer>();
         int left = 0;
         for (int i = 0; i < len; i++) {
-            if (map.containsKey(s.charAt(i))){
+            if (map.containsKey(s.charAt(i))) {
                 left = Math.max(left, map.get(s.charAt(i)) + 1);
             }
 
@@ -158,9 +158,9 @@ public class Demo2024 {
         int step = 0;
         int len = nums.length;
         for (int i = 0; i < len; i++) {
-            if (i <= step){
+            if (i <= step) {
                 step = Math.max(step, i + nums[i]);
-                if (step>=len-1){
+                if (step >= len - 1) {
                     return true;
                 }
             }
@@ -171,12 +171,12 @@ public class Demo2024 {
 
     public static int jump(int[] nums) {
 
-        int position = nums.length- 1;//距离，需要走的最大步数
+        int position = nums.length - 1;//距离，需要走的最大步数
         int steps = 0;//答案，最终走的步数
 
-        while (position > 0){
+        while (position > 0) {
             for (int i = 0; i < position; i++) {
-                if (1 + nums[i] >= position){
+                if (1 + nums[i] >= position) {
                     //找到到达终点并且距离终点最远的值
                     steps++;
                     position = i;
@@ -185,7 +185,7 @@ public class Demo2024 {
             }
 
         }
-       return steps;
+        return steps;
     }
 
     public static int hIndex(int[] citations) {
@@ -194,7 +194,7 @@ public class Demo2024 {
 
         int len = citations.length;
         for (int i = 0; i < len; i++) {
-            if (citations[i]>=len-i){
+            if (citations[i] >= len - i) {
                 return len - i;
             }
         }
@@ -211,8 +211,8 @@ public class Demo2024 {
         }
         List<Integer> ans = new ArrayList<>();
 
-        int[] scount= new int[26];
-        int[] pcount= new int[26];
+        int[] scount = new int[26];
+        int[] pcount = new int[26];
         for (int i = 0; i < plen; i++) {
             ++scount[s.charAt(i) - 'a'];
             ++pcount[p.charAt(i) - 'a'];
@@ -235,38 +235,83 @@ public class Demo2024 {
 
     }
 
+    public int subarraySum(int[] nums, int k) {
 
+        /*int count = 0;
+        for (int i = 0; i < nums.length; i++) {
 
+            int sum = 0;
+            for (int i1 = i; i1 >= 0; i1--) {
+                sum += nums[i1];
+                if (sum == k) {
+                    count++;
+                }
+            }
 
+        }
+        return count;*/
 
+        int count = 0;
+        int pre = 0;
+        Map<Integer, Integer> map = new HashMap<>();
+        map.put(0, 1);
+        for (int num : nums) {
+            pre += num;
+            if (map.containsKey(pre - k)) {
+                count += map.get(pre - k);
+            }
+            map.put(pre, map.getOrDefault(pre - k, 0) + 1);
+        }
 
-    public static void main(String[] args) {
-        System.out.println(findAnagrams("baa","aa"));
+        return count;
+
     }
 
+    class RandomizedSet {
+        Random random;
+        List<String> keys;
+        Map<String, Integer> map;
 
+        public RandomizedSet() {
+            keys = new ArrayList<>();
+            map = new HashMap<>();
+            random = new Random();
+        }
 
+        public boolean insert(int val) {
+            String k = String.valueOf(val);
+            if (map.containsKey(k)) {
+                return false;
+            }
 
+            keys.add(k);
+            map.put(k, val);
+            return true;
+        }
 
+        public boolean remove(int val) {
+            String k = String.valueOf(val);
+            if (!map.containsKey(k)) {
+                return false;
+            }
 
+            keys.remove(k);
+            map.remove(k);
+            return true;
+        }
 
+        public int getRandom() {
+            return map.get(keys.get(random.nextInt(keys.size())));
+        }
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    public static void main(String[] args) {
+        Random random = new Random();
+        for (int i = 0; i < 100; i++) {
+            System.out.println(random.nextInt(9));
+        }
+        System.out.println();
+    }
 
 
 }
