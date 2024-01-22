@@ -305,12 +305,63 @@ public class Demo2024 {
         }
     }
 
-    public static void main(String[] args) {
-        Random random = new Random();
-        for (int i = 0; i < 100; i++) {
-            System.out.println(random.nextInt(9));
+
+    public static int[] productExceptSelf(int[] nums) {
+
+
+        int len = nums.length;
+        int[] ans = new int[len];
+        int suffix = 1;
+
+        for (int i = 0; i < len; i++) {
+            if (i == 0) {
+                ans[i] = 1;
+            } else {
+                ans[i] = ans[i - 1] * nums[i - 1];
+            }
         }
-        System.out.println();
+
+        for (int i = len - 1; i >= 0; i--) {
+            ans[i] = ans[i] * suffix;
+            suffix = suffix * nums[i];
+        }
+
+        return ans;
+
+    }
+
+    public static int[] maxSlidingWindow(int[] nums, int k) {
+
+        int len = nums.length;
+        int[] preMax = new int[len];
+        int[] suffixMax = new int[len];
+        for (int i = 0; i < len; i++) {
+            if (i % k == 0){
+                preMax[i] = nums[i];
+            }else {
+                preMax[i] = Math.max(preMax[i - 1], nums[i]);
+            }
+        }
+
+        for (int i = len - 1; i >= 0; i--) {
+            if ((i == len - 1) || (i + 1) % k == 0){
+                suffixMax[i] = nums[i];
+            }else {
+                suffixMax[i] = Math.max(suffixMax[i + 1], nums[i]);
+            }
+        }
+
+        int[] ans = new int[len - k + 1];
+        for (int i = 0; i < len - k + 1; i++) {
+            ans[i] = Math.max(suffixMax[i], preMax[i + k - 1]);
+        }
+        return ans;
+    }
+
+
+    public static void main(String[] args) {
+
+        System.out.println(Arrays.toString(maxSlidingWindow(new int[]{1,3,-1,-3,5,3,6,7}, 3)));
     }
 
 
