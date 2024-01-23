@@ -7,7 +7,7 @@ import java.math.RoundingMode;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class EveryDay {
+public class Demo2022 {
 
 
     class MyCircularDeque {

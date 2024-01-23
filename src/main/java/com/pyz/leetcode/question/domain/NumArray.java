@@ -1,4 +1,4 @@
-package com.pyz.leetcode.question;
+package com.pyz.leetcode.question.domain;
 
 public class NumArray {
 
