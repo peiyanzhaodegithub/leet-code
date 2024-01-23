@@ -359,6 +359,84 @@ public class Demo2024 {
     }
 
 
+    public String minWindow(String s, String t) {
+
+        int slen = s.length();
+        int tlen = t.length();
+
+        if (slen == 0 || tlen == 0 || slen < tlen){
+            return "";
+        }
+        int[] tFreq = new int[128];
+        for (int i = 0; i < tlen; i++) {
+            tFreq[t.charAt(i)]++;
+        }
+        int[] winFreq = new int[128];
+        int distance = 0;
+        int begin = 0;
+        int min = slen + 1;
+        int left = 0;
+        int right = 0;
+        while (right < slen){
+
+            if (tFreq[s.charAt(right)] == 0){
+                right++;
+                continue;
+            }
+
+            if (winFreq[s.charAt(right)] < tFreq[s.charAt(right)]){
+                distance++;
+            }
+            winFreq[s.charAt(right)]++;
+            right++;
+
+            while (distance == tlen){
+
+                if (right - left < min){
+                    min = right - left;
+                    begin = left;
+                }
+
+                if (tFreq[s.charAt(left)] == 0){
+                    left++;
+                    continue;
+                }
+                if (winFreq[s.charAt(left)] == tFreq[s.charAt(left)]){
+                    distance--;
+                }
+                winFreq[s.charAt(left)]--;
+                left++;
+            }
+
+        }
+
+        if (min == slen + 1){
+            return "";
+        }
+
+        return s.substring(begin, begin + min);
+
+    }
+
+
+    public int canCompleteCircuit(int[] gas, int[] cost) {
+
+        int len = gas.length;
+        int sum = 0;
+        int min = 0;
+        int idx = 0;
+        for (int i = 0; i < len; i++) {
+            sum += gas[i] - cost[i];
+            if (sum<min){
+                min = sum;
+                idx = i + 1;
+            }
+        }
+
+        return sum < 0 ? -1 : idx;
+    }
+
+
     public static void main(String[] args) {
 
         System.out.println(Arrays.toString(maxSlidingWindow(new int[]{1,3,-1,-3,5,3,6,7}, 3)));
