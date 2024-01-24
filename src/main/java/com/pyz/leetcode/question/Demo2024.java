@@ -437,6 +437,47 @@ public class Demo2024 {
     }
 
 
+    public int candy(int[] ratings) {
+
+        int len = ratings.length;
+        int incr = 1;
+        int prev = 1;
+        int decr = 0;
+        int ans = 0;
+        for (int i = 1; i < len; i++) {
+            if (ratings[i] > ratings[i-1]){
+                decr = 0;
+                prev = ratings[i] == ratings[i-1] ? 1:prev+1;
+                incr = prev;
+                ans += prev;
+            }else {
+                decr++;
+                if (incr == decr){
+                    decr++;
+                }
+
+                ans += decr;
+                prev = 1;
+            }
+        }
+
+        return ans;
+
+    }
+
+    public int maxSubArray(int[] nums) {
+
+        int pre = 0;
+        int max = nums[0];
+
+        for (int num : nums) {
+            pre = Math.max(pre + num, num);
+            max = Math.max(max, pre);
+        }
+        return max;
+    }
+
+
     public static void main(String[] args) {
 
         System.out.println(Arrays.toString(maxSlidingWindow(new int[]{1,3,-1,-3,5,3,6,7}, 3)));
