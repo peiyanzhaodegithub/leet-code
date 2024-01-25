@@ -336,17 +336,17 @@ public class Demo2024 {
         int[] preMax = new int[len];
         int[] suffixMax = new int[len];
         for (int i = 0; i < len; i++) {
-            if (i % k == 0){
+            if (i % k == 0) {
                 preMax[i] = nums[i];
-            }else {
+            } else {
                 preMax[i] = Math.max(preMax[i - 1], nums[i]);
             }
         }
 
         for (int i = len - 1; i >= 0; i--) {
-            if ((i == len - 1) || (i + 1) % k == 0){
+            if ((i == len - 1) || (i + 1) % k == 0) {
                 suffixMax[i] = nums[i];
-            }else {
+            } else {
                 suffixMax[i] = Math.max(suffixMax[i + 1], nums[i]);
             }
         }
@@ -364,7 +364,7 @@ public class Demo2024 {
         int slen = s.length();
         int tlen = t.length();
 
-        if (slen == 0 || tlen == 0 || slen < tlen){
+        if (slen == 0 || tlen == 0 || slen < tlen) {
             return "";
         }
         int[] tFreq = new int[128];
@@ -377,31 +377,31 @@ public class Demo2024 {
         int min = slen + 1;
         int left = 0;
         int right = 0;
-        while (right < slen){
+        while (right < slen) {
 
-            if (tFreq[s.charAt(right)] == 0){
+            if (tFreq[s.charAt(right)] == 0) {
                 right++;
                 continue;
             }
 
-            if (winFreq[s.charAt(right)] < tFreq[s.charAt(right)]){
+            if (winFreq[s.charAt(right)] < tFreq[s.charAt(right)]) {
                 distance++;
             }
             winFreq[s.charAt(right)]++;
             right++;
 
-            while (distance == tlen){
+            while (distance == tlen) {
 
-                if (right - left < min){
+                if (right - left < min) {
                     min = right - left;
                     begin = left;
                 }
 
-                if (tFreq[s.charAt(left)] == 0){
+                if (tFreq[s.charAt(left)] == 0) {
                     left++;
                     continue;
                 }
-                if (winFreq[s.charAt(left)] == tFreq[s.charAt(left)]){
+                if (winFreq[s.charAt(left)] == tFreq[s.charAt(left)]) {
                     distance--;
                 }
                 winFreq[s.charAt(left)]--;
@@ -410,7 +410,7 @@ public class Demo2024 {
 
         }
 
-        if (min == slen + 1){
+        if (min == slen + 1) {
             return "";
         }
 
@@ -427,7 +427,7 @@ public class Demo2024 {
         int idx = 0;
         for (int i = 0; i < len; i++) {
             sum += gas[i] - cost[i];
-            if (sum<min){
+            if (sum < min) {
                 min = sum;
                 idx = i + 1;
             }
@@ -445,14 +445,14 @@ public class Demo2024 {
         int decr = 0;
         int ans = 0;
         for (int i = 1; i < len; i++) {
-            if (ratings[i] > ratings[i-1]){
+            if (ratings[i] > ratings[i - 1]) {
                 decr = 0;
-                prev = ratings[i] == ratings[i-1] ? 1:prev+1;
+                prev = ratings[i] == ratings[i - 1] ? 1 : prev + 1;
                 incr = prev;
                 ans += prev;
-            }else {
+            } else {
                 decr++;
-                if (incr == decr){
+                if (incr == decr) {
                     decr++;
                 }
 
@@ -477,10 +477,53 @@ public class Demo2024 {
         return max;
     }
 
+    public static int[][] merge(int[][] intervals) {
+        Arrays.sort(intervals, new Comparator<int[]>() {
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return o1[0] - o2[0];
+            }
+        });
+
+        List<int[]> ans = new ArrayList<>();
+        for (int[] interval : intervals) {
+            int l = interval[0];
+            int r = interval[1];
+            int size = ans.size();
+            if (size != 0 && ans.get(size - 1)[1] >= l) {
+                ans.get(size - 1)[1] = Math.max(ans.get(size - 1)[1], r);
+            } else {
+                ans.add(new int[]{l, r});
+            }
+        }
+
+        return ans.toArray(new int[ans.size()][]);
+    }
+
+    /*public int trap(int[] height) {
+        int len = height.length;
+        int[] lMaxArr = new int[len];
+        int[] rMaxArr = new int[len];
+
+        lMaxArr[0] = height[0];
+        for (int i = 1; i < len; i++) {
+            lMaxArr[i] = Math.max(lMaxArr[i - 1], height[i]);
+        }
+
+        rMaxArr[len - 1] = height[len - 1];
+        for (int i = len - 2; i >= 0; i--) {
+            rMaxArr[i] = Math.max(rMaxArr[i + 1], height[i]);
+        }
+        int ans = 0;
+        for (int i = 0; i < len; i++) {
+            ans += Math.min(lMaxArr[i], rMaxArr[i]) - height[i];
+        }
+        return ans;
+    }*/
 
     public static void main(String[] args) {
 
-        System.out.println(Arrays.toString(maxSlidingWindow(new int[]{1,3,-1,-3,5,3,6,7}, 3)));
+        System.out.println(Arrays.toString(merge(new int[][]{{1, 3}, {2, 6}, {8, 10}, {15, 18}})));
     }
 
 
