@@ -608,14 +608,76 @@ public class Demo2024 {
         System.arraycopy(ints, 0, nums, 0, len);
     }
 
+    public static int[] productExceptSelf1(int[] nums) {
+
+        int len = nums.length;
+        int[] ans = new int[len];
+        for (int i = 0; i < len; i++) {
+            if (i == 0) {
+                ans[i] = 1;
+            } else {
+                ans[i] = ans[i - 1] * nums[i - 1];
+            }
+        }
+
+        int suffix = 1;
+        for (int i = len - 1; i >= 0; i--) {
+            ans[i] = ans[i] * suffix;
+            suffix = nums[i] * suffix;
+        }
+
+        return ans;
+    }
+
+    public static int lengthOfLastWord(String s) {
+
+        int slow = 0;
+        int len = s.length();
+        boolean b = false;
+        for (int i = len - 1; i >= 0; i--) {
+            if (s.charAt(i) != ' ' && !b) {
+                slow = i;
+                b = true;
+            } else if (s.charAt(i) == ' ' && b) {
+                return slow - i;
+            }
+        }
+        return b ? slow + 1 : 0;
+    }
+
+
+    public static int firstMissingPositive(int[] nums) {
+
+        boolean have1 = false;
+        int len = nums.length;
+        for (int i = 0; i < len; i++) {
+            if (nums[i] == 1){
+                have1 = true;
+            }
+            if (nums[i] <= 0 || nums[i] > len) {
+                nums[i] = 1;
+            }
+        }
+        if (!have1){
+            return 1;
+        }
+        for (int i = 0; i < len; i++) {
+            int v = Math.abs(nums[i]) - 1;
+            nums[v] = -Math.abs(nums[v]);
+        }
+
+        for (int i = 0; i < len; i++) {
+            if (nums[i] > 0) {
+                return i + 1;
+            }
+        }
+
+        return len + 1;
+    }
 
     public static void main(String[] args) {
 
-        System.out.println(intToRoman(3));
-        System.out.println(intToRoman(4));
-        System.out.println(intToRoman(9));
-        System.out.println(intToRoman(58));
-        System.out.println(intToRoman(1994));
+        System.out.println(firstMissingPositive(new int[]{1,2,0}));
     }
 
 
