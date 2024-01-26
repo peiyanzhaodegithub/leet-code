@@ -521,9 +521,101 @@ public class Demo2024 {
         return ans;
     }*/
 
+
+    public static int romanToInt(String s) {
+
+        Map<Character, Integer> map = new HashMap<>();
+        map.put('I', 1);
+        map.put('V', 5);
+        map.put('X', 10);
+        map.put('L', 50);
+        map.put('C', 100);
+        map.put('D', 500);
+        map.put('M', 1000);
+
+        int len = s.length();
+        int ans = 0;
+        int p = 0;
+        while (p < len) {
+            char c = s.charAt(p);
+            char next = p == len - 1 ? ' ' : s.charAt(p + 1);
+            if (c == 'I' && next == 'V') {
+                ans += 4;
+                p = p + 2;
+                continue;
+            }
+            if (c == 'I' && next == 'X') {
+                ans += 9;
+                p = p + 2;
+                continue;
+            }
+            if (c == 'X' && next == 'L') {
+                ans += 40;
+                p = p + 2;
+                continue;
+            }
+            if (c == 'X' && next == 'C') {
+                ans += 90;
+                p = p + 2;
+                continue;
+            }
+            if (c == 'C' && next == 'D') {
+                ans += 400;
+                p = p + 2;
+                continue;
+            }
+            if (c == 'C' && next == 'M') {
+                ans += 900;
+                p = p + 2;
+                continue;
+            }
+            ans += map.get(c);
+            p++;
+        }
+
+        return ans;
+
+
+    }
+
+
+    public static final int[] values = {1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1};
+    public static final String[] symbols = {"M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"};
+
+    public static String intToRoman(int num) {
+
+        StringBuilder stringBuffer = new StringBuilder();
+        for (int i = 0; i < symbols.length; i++) {
+
+            int val = values[i];
+            while (num >= val) {
+                stringBuffer.append(symbols[i]);
+                num -= val;
+            }
+            if (val == 0) break;
+        }
+
+        return stringBuffer.toString();
+    }
+
+    public static void rotate1(int[] nums, int k) {
+
+        int len = nums.length;
+        int[] ints = new int[len];
+        for (int i = 0; i < len; i++) {
+            ints[(i + k) % len] = nums[i];
+        }
+        System.arraycopy(ints, 0, nums, 0, len);
+    }
+
+
     public static void main(String[] args) {
 
-        System.out.println(Arrays.toString(merge(new int[][]{{1, 3}, {2, 6}, {8, 10}, {15, 18}})));
+        System.out.println(intToRoman(3));
+        System.out.println(intToRoman(4));
+        System.out.println(intToRoman(9));
+        System.out.println(intToRoman(58));
+        System.out.println(intToRoman(1994));
     }
 
 
