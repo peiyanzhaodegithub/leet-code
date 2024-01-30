@@ -675,10 +675,76 @@ public class Demo2024 {
         return len + 1;
     }
 
+    public static void setZeroes(int[][] matrix) {
+
+
+        int m = matrix.length, n = matrix[0].length;
+        boolean[] row = new boolean[m];
+        boolean[] col = new boolean[n];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (matrix[i][j] == 0) {
+                    row[i] = col[j] = true;
+                }
+            }
+        }
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (row[i] || col[j]) {
+                    matrix[i][j] = 0;
+                }
+            }
+        }
+
+        System.out.println(matrix);
+    }
+
+    public static String longestCommonPrefix(String[] strs) {
+
+        int len = strs[0].length();
+
+        for (int i = 0; i < len; i++) {
+            char c = strs[0].charAt(i);
+            for (int i1 = 1; i1 < strs.length; i1++) {
+                if (strs[i1].length() == i || c != strs[i1].charAt(i)){
+                    return strs[0].substring(0, i);
+                }
+            }
+        }
+        return strs[0];
+    }
+
+
+
+
+
+
     public static void main(String[] args) {
 
-        System.out.println(firstMissingPositive(new int[]{1,2,0}));
+        System.out.println(longestCommonPrefix(new String[]{"ab", "a"}));
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 }
