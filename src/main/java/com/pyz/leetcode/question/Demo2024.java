@@ -651,14 +651,14 @@ public class Demo2024 {
         boolean have1 = false;
         int len = nums.length;
         for (int i = 0; i < len; i++) {
-            if (nums[i] == 1){
+            if (nums[i] == 1) {
                 have1 = true;
             }
             if (nums[i] <= 0 || nums[i] > len) {
                 nums[i] = 1;
             }
         }
-        if (!have1){
+        if (!have1) {
             return 1;
         }
         for (int i = 0; i < len; i++) {
@@ -706,7 +706,7 @@ public class Demo2024 {
         for (int i = 0; i < len; i++) {
             char c = strs[0].charAt(i);
             for (int i1 = 1; i1 < strs.length; i1++) {
-                if (strs[i1].length() == i || c != strs[i1].charAt(i)){
+                if (strs[i1].length() == i || c != strs[i1].charAt(i)) {
                     return strs[0].substring(0, i);
                 }
             }
@@ -715,36 +715,93 @@ public class Demo2024 {
     }
 
 
+    public static String reverseWords(String s) {
 
+        int len = s.length();
 
+        StringBuilder stringBuilder = new StringBuilder();
+        int slow = len - 1;
+        boolean b = false;
+        while (slow >= 0) {
+
+            if (s.charAt(slow) == ' ') {
+                slow--;
+                continue;
+            }
+
+            int fast = slow - 1;
+            while (fast >= -1) {
+                if (fast == -1 || s.charAt(fast) == ' ') {
+                    if (b) {
+                        stringBuilder.append(" ");
+                    }
+                    stringBuilder.append(s, fast + 1, slow + 1);
+                    b = true;
+                    slow = fast - 1;
+                    break;
+                }
+                fast--;
+            }
+
+        }
+
+        return stringBuilder.toString();
+    }
+
+    public static String convert(String s, int numRows) {
+
+        if (numRows == 1 || numRows == s.length()) {
+            return s;
+        }
+
+        StringBuilder stringBuilder = new StringBuilder();
+        int t = 2 * numRows - 2;
+        int len = s.length();
+        for (int i = 0; i < numRows; i++) {
+            for (int j = 0; j + i < len; j += t) {
+                stringBuilder.append(s.charAt(j + i));
+                if (i != 0 && i != numRows - 1 && t + j - i < len) {
+                    stringBuilder.append(s.charAt(t + j - i));
+                }
+            }
+        }
+
+        return stringBuilder.toString();
+
+    }
+
+    public static int strStr(String haystack, String needle) {
+
+        int haystackLen = haystack.length();
+        int needleLen = needle.length();
+        if (needleLen > haystackLen) {
+            return -1;
+        }
+        for (int i = 0; i < haystackLen; i++) {
+            if (haystack.charAt(i) == needle.charAt(0)) {
+                int idx = i, needleIdx = 0;
+                while (needleIdx < needleLen && idx < haystackLen) {
+                    if (haystack.charAt(idx) != needle.charAt(needleIdx)) {
+                        break;
+                    }
+                    if (needleIdx == needleLen - 1) {
+                        return i;
+                    }
+                    needleIdx++;
+                    idx++;
+                }
+            }
+        }
+
+        return -1;
+    }
 
 
     public static void main(String[] args) {
 
-        System.out.println(longestCommonPrefix(new String[]{"ab", "a"}));
+        System.out.println(strStr("mississippi", "issipi"));
+
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }
