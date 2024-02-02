@@ -887,10 +887,10 @@ public class Demo2024 {
         int p = 0;
         for (int i = 0; i < slen; i++) {
             while (p <= tlen) {
-                if (p == tlen){
+                if (p == tlen) {
                     return false;
                 }
-                if (t.charAt(p) == s.charAt(i)){
+                if (t.charAt(p) == s.charAt(i)) {
                     p++;
                     break;
                 }
@@ -901,9 +901,31 @@ public class Demo2024 {
         return true;
     }
 
+    public static int[] twoSum(int[] numbers, int target) {
+
+
+        int r = numbers.length - 1;
+        int l = 0;
+
+        while (l <= r) {
+            if (numbers[l] + numbers[r] == target) {
+                return new int[]{l + 1, r + 1};
+            }
+            if (numbers[l] + numbers[r] > target) {
+                r--;
+            } else {
+                l++;
+            }
+
+        }
+
+        return new int[]{-1, -1};
+
+    }
+
     public static void main(String[] args) {
 
-        System.out.println(isSubsequence("axc","ahbgdc"));
+        System.out.println(Arrays.toString(twoSum(new int[]{-1, 0}, 1)));
 
     }
 
