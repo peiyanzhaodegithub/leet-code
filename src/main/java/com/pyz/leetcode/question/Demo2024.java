@@ -923,6 +923,53 @@ public class Demo2024 {
 
     }
 
+
+    public static List<List<Integer>> threeSum1(int[] nums) {
+
+        Arrays.sort(nums);
+        Set<List<Integer>> set = new HashSet<>();
+        int len = nums.length;
+        for (int i = 0; i < len; i++) {
+            int l = i + 1;
+            int r = len - 1;
+            while (l < r) {
+                int sum = nums[i] + nums[l] + nums[r];
+                if (sum == 0) {
+                    set.add(Arrays.asList(nums[i], nums[l], nums[r]));
+                    l++;
+                    r--;
+                } else if (sum > 0) {
+                    r--;
+                } else {
+                    l++;
+                }
+            }
+        }
+
+        return new ArrayList<>(set);
+    }
+
+    public int minSubArrayLen(int target, int[] nums) {
+
+        int len = nums.length;
+        int l = 0;
+        int r = 0;
+        int sum = 0;
+        int ans = Integer.MAX_VALUE;
+        while (r < len) {
+            sum += nums[r];
+            while (sum >= target) {
+                ans = Math.min(ans, r - l + 1);
+                sum -= nums[l];
+                l++;
+            }
+            r++;
+        }
+
+        return ans == Integer.MAX_VALUE ? 0 : ans;
+    }
+
+
     public static void main(String[] args) {
 
         System.out.println(Arrays.toString(twoSum(new int[]{-1, 0}, 1)));
